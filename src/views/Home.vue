@@ -142,5 +142,23 @@ main{
     height: 100vh;
     background: rgb(34,30,66);
     background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%);
+    background-size: 400% 400%;
+    animation: animation 10s ease infinite;
+}
+
+    /*-----Animation------*/
+
+    @keyframes animation{
+    0%{
+        background-position: 0 50%;
+    }
+
+    50%{
+        background-position: 100% 50%;
+    }
+
+    100%{
+        background-position: 0 50%;
+    }
 }
 </style>
