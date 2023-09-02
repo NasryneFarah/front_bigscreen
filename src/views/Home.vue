@@ -30,11 +30,18 @@
 
     <!-- div pour accéder au sondage -->
    <main id="main">
-
+    <section class="home">
+        <div class="home-content">
+            <h1>Bigscreen</h1>
+            <p>Merci de répondre à toutes les questions et de valider le formulaire en cliquant sur le bouton finaliser</p>
+            <button class="btn">Participer au sondage</button>
+        </div>
+    </section>
    </main>
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@1;100;200;300;400;500;600;700;800;900;1000&display=swap');
 
 *{
     margin: 0px;
@@ -51,6 +58,7 @@ html{
     font-family: 'Lunar';
     src: url('public/assets/fonts/neuropolitical rg.otf');
 }
+
 /*--video*/
 #bg_video{
     height: 100vh;
@@ -161,4 +169,61 @@ main{
         background-position: 0 50%;
     }
 }
+
+.home{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-content {
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.home-content h1{
+    font-family: 'Lunar';
+    color: #7089C0;
+    font-size: 78px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.219);
+}
+
+.home-content p{
+    font-family: 'Ysabeau Infant', sans-serif;
+    font-weight: 100;
+    font-size: 25px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0 10px #7089C0;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.home-content .btn{
+    font-family: 'Ysabeau Infant', sans-serif;
+    display: block;
+    font-size: 30px;
+    font-weight: 400;
+    color: #7089C0;
+    padding: 25px 80px;
+    background: #221E42;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 6px #3A3F87;
+}
+
+.btn:active {
+    box-shadow: 0 0 #3A3F87;
+    top: 6px;
+}
+
+
 </style>
