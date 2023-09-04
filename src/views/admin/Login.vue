@@ -1,19 +1,57 @@
-<script></script>
+<script>
+export default{
+    data() {
+    return {
+        email:"",
+        password:"",
+    }
+}, 
+
+methods: {
+    async submit(){
+        const res = await(
+            await fetch(`${this.API_URL}/login`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json", //On précise le type du contenu
+          },
+          body: JSON.stringify({
+            //je renvoie  les données sous format json
+            email: this.email,
+            password: this.password,
+          }),
+        })
+        ).json();
+
+        if (res.status == 'Utilisateur connecté') {
+            window.location.href = "/dashboard"; // Redirection vers la page "/dashboard" si la connexion est réussie
+      } else {
+        console.error(res.error);
+      }
+    }
+}
+}
+</script>
 
 <template>
-   <div class="container">
+   <div class="container" >
+    <form action="#" @submit.prevent="submit()">
   <div class="brand-logo">
     <img src="public/assets/images/logo_bigscreen.png" width="30">
   </div>
   <div class="brand-title">Bigscreen</div>
   <div class="inputs">
-    <label>EMAIL</label>
-    <input type="email" placeholder="exemple@test.com" />
-    <label>PASSWORD</label>
-    <input type="password" placeholder="Minimum 6 caractères" />
+    <label>Email</label>
+    <input type="email" v-model="email" required placeholder="exemple@test.com" />
+    <label>Password</label>
+    <input type="password" v-model="password" required  placeholder="Minimum 6 caractères" />
     <button type="submit">Connexion</button>
   </div>
+</form>
 </div>
+
+<!-- pop up -->
+
 </template>
 
 <style>
@@ -147,4 +185,7 @@ h1 {
   top: 0;
   left: 0;
 }
+
+/* pop up */
+
 </style>
