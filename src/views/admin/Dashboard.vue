@@ -5,11 +5,25 @@
     <div class="wrapper">
         <!-- le menu à gauche -->
        <div class="sidebar">
-        <img src="public/assets/images/logo_bigscreen.png" width="150">
+        <router-link to="/Dashboard">
+            <img src="public/assets/images/logo_bigscreen.png" width="150">
+        </router-link>
+        
         <ul>
             <li><a href="#"><i class="fas fa-solid fa-house" style="color: #7089c0;"></i>Accueil</a></li>
-            <li><a href="#"><i class="fas fa-solid fa-question" style="color: #7089c0;"></i>Questionnaire</a></li>
-            <li><a href="#"><i class="fas fa-solid fa-scroll" style="color: #7089c0;"></i>Réponses</a></li>
+
+            <li>
+            <router-link to="/Survey">
+                <a href="#"><i class="fas fa-solid fa-question" style="color: #7089c0"></i>Questionnaire</a>
+            </router-link>
+          </li>
+            
+          <li>
+            <router-link to="">
+                <a href="#"><i class="fas fa-solid fa-scroll" style="color: #7089c0"></i>Réponses</a>
+            </router-link>
+          </li>
+
         </ul>
        </div>
        <!-- corps du dashboard -->
@@ -70,9 +84,9 @@ body{
 }
 
 .wrapper .sidebar ul li a{
-    color: whitesmoke;
+    color: #fff;
+    text-shadow: 0 0 10px #7089C0;
     font-size: 20px;
-    text-shadow: 3px 5px 2px #7089C0;
     display: block;
 }
 
@@ -83,11 +97,6 @@ body{
 .wrapper .sidebar ul li:hover{
     background: #C61D6E;
 }
-
-/* .wrapper .sidebar ul li:hover a{
-    color: #7089C0;
-  text-shadow: 3px 5px 2px whitesmoke; 
-} */
 
 .wrapper .main-content{
     width: 100%;

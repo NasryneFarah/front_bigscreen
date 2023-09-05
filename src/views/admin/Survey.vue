@@ -1,4 +1,36 @@
-<script></script>
+<script>
+export default {
+    data() {
+        return {
+            questions:[],
+        }
+    },
+
+    methods: {
+        async getQuestions(){
+            var url = `${this.API_URL}/listes_questions`;
+            const res = await(
+                await fetch(url,{
+                   method: "get",
+                   headers: {
+                    "Content-Type": "application/json", //je précise le type du contenu
+                   } 
+                })
+            ).json();
+
+            // je fais une condition
+            if (res.status == 200) {
+                this.questions = res.data;
+            }
+        }
+    },
+
+    mounted : function () {
+        // Mounted appelera les fonctions citées à chaque fois que la page se charge
+        this.getQuestions(); 
+    }
+}
+</script>
 
 <template>
   <div>
@@ -6,26 +38,30 @@
     <div class="wrapper">
       <!-- le menu à gauche -->
       <div class="sidebar">
-        <img src="public/assets/images/logo_bigscreen.png" width="150" />
+
+        <router-link to="/Dashboard">
+            <img src="public/assets/images/logo_bigscreen.png" width="150" />
+        </router-link>
+       
         <ul>
           <li>
-            <a href="#"
-              ><i class="fas fa-solid fa-house" style="color: #7089c0"></i
-              >Accueil</a
-            >
+            <router-link to="/Dashboard">
+                <a href="#"><i class="fas fa-solid fa-house" style="color: #7089c0"></i>Accueil</a>
+            </router-link>
           </li>
+
           <li>
-            <a href="#"
-              ><i class="fas fa-solid fa-question" style="color: #7089c0"></i
-              >Questionnaire</a
-            >
+            <router-link to="/Survey">
+                <a href="#"><i class="fas fa-solid fa-question" style="color: #7089c0"></i>Questionnaire</a>
+            </router-link>
           </li>
+
           <li>
-            <a href="#"
-              ><i class="fas fa-solid fa-scroll" style="color: #7089c0"></i
-              >Réponses</a
-            >
+            <router-link to="">
+                <a href="#"><i class="fas fa-solid fa-scroll" style="color: #7089c0"></i>Réponses</a>
+            </router-link>
           </li>
+
         </ul>
       </div>
       <!-- corps du dashboard -->
@@ -40,14 +76,16 @@
                     <th>Id</th>
                     <th>Titre de la question</th>
                     <th>Corps de la question</th>
+                    <th>Type de question</th>
                 </tr>
             </thead>
             <!-- corps du tableau -->
-            <tbody>
+            <tbody v-for="q in questions" :key="q.id">
                 <tr>
-                    <td>1</td>
-                    <td>Questions 1/20</td>
-                    <td>Votre adresse email?</td>
+                    <td>{{ q.id }}</td>
+                    <td>{{ q.title }}</td>
+                    <td>{{ q.body_question }}</td>
+                    <td>{{ q.type }}</td>
                 </tr>
 
                 <!-- <tr>
@@ -117,10 +155,10 @@ body {
 }
 
 .wrapper .sidebar ul li a {
-  color: whitesmoke;
-  font-size: 20px;
-  text-shadow: 3px 5px 2px #7089c0;
-  display: block;
+    color: #fff;
+    text-shadow: 0 0 10px #7089C0;
+    font-size: 20px;
+    display: block;
 }
 
 .wrapper .sidebar ul li a .fas {
@@ -130,11 +168,6 @@ body {
 .wrapper .sidebar ul li:hover {
   background: #c61d6e;
 }
-
-/* .wrapper .sidebar ul li:hover a{
-    color: #7089C0;
-  text-shadow: 3px 5px 2px whitesmoke; 
-} */
 
 .wrapper .main-content {
   width: 100%;
@@ -175,12 +208,17 @@ th, td{
     padding: 15px 20px;
 }
 
+td{
+    color: #fff;
+    text-shadow: 0 3px 15px #7089C0;
+}
+
 tbody tr, td, th{
-    border: 1px solid #7089c0;
+    border: 1px solid #343777;
 }
 
 tbody tr:nth-child(even){
-    background-color: rgba(245, 245, 245, 0.469);
+    background-color: rgba(245, 245, 245, 0.469)!important;
 }
 
 tbody tr:last-of-type{
