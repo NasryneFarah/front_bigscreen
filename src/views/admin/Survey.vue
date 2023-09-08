@@ -202,6 +202,7 @@ thead tr{
     background-color: #343777;
     color: #7089c0;
     text-align: left;
+    font-size: 20px;
 }
 
 th, td{
