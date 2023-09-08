@@ -49,6 +49,7 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    text-decoration: none;
 }
 /* rajouter un effet lorsque je scroll avec mes flèches directionnelles */
 html{
