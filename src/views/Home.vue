@@ -34,7 +34,9 @@
         <div class="home-content">
             <h1>Bigscreen</h1>
             <p>Merci de répondre à toutes les questions et de valider le formulaire en cliquant sur le bouton finaliser</p>
-            <button class="btn">Participer au sondage</button>
+            <router-link to="/form">
+                <button class="btn">Participer au sondage</button>
+            </router-link>   
         </div>
     </section>
    </main>

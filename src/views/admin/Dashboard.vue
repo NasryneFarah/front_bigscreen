@@ -5,7 +5,7 @@
     <div class="wrapper">
         <!-- le menu à gauche -->
        <div class="sidebar">
-        <router-link to="/">
+        <router-link to="/Dashboard">
             <img src="public/assets/images/logo_bigscreen.png" width="150">
         </router-link>
         
