@@ -44,7 +44,6 @@ body{
 }
 
 .container{
-    background: whitesmoke;
     position: relative;
     max-width: 900px;
     width: 100%;
