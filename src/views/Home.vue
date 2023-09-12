@@ -5,7 +5,7 @@
 <template>
  <!-- la video en background -->
     <video autoplay loop muted id="bg_video">
-        <source src="public/assets/videos/Oculus.mp4" type="video/mp4">
+        <source src="public/assets/videos/bigscreen.mp4" type="video/mp4">
     </video>
 
 <!-- le logo du site -->

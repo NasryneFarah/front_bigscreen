@@ -104,7 +104,7 @@ export default {
 
 <style>
 /* importer police */
-@import url("https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@1;100;200;300;400;500;600;700;800;900;1000&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -112,7 +112,7 @@ export default {
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-  font-family: "Ysabeau Infant", sans-serif;
+  font-family: 'Urbanist', sans-serif;
 }
 
 body {

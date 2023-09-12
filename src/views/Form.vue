@@ -5,21 +5,6 @@
 <template>
     <div class="container">
         <header>Formulaire de Bigscreen</header>
-
-        <form action="#">
-            <div class="form first">
-                <div class="first details">
-                    <span class="title">Détails personnels</span>
-
-                    <div class="fields">
-                        <div class="input-field">
-                            <label>Votre adresse email ?</label>
-                            <input type="email" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
 </template>
 
@@ -46,6 +31,20 @@ body{
 .container{
     position: relative;
     max-width: 900px;
-    width: 100%;
+    width: 115%;
+    height: 415px;
+    border-radius: 6px;
+    padding: 30px;
+    margin: 0 15px;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+.container header{
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: #3a3f87;
 }
+
 </style>
