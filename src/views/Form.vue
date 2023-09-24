@@ -8,6 +8,7 @@ export default {
   },
 
   computed: {
+    //la fonction me permet de retourner chaque question en fonction de leur index
     actualQuestion() {
       //vérifier si l'index est valide entre 0 et la longueur des questions -1
       if (this.index >= 0 && this.index < this.question.length) {
@@ -41,9 +42,7 @@ export default {
     // Mounted appelera les fonctions citées à chaque fois que la page se charge
     await this.listQuestions();
   },
-  // async created() {
-  //   await this.listQuestions();
-  // }
+ 
 };
 </script>
 <template>
@@ -53,7 +52,16 @@ export default {
         <div class="content">
           <h3>{{ actualQuestion.title }}</h3>
           <p>{{ actualQuestion.body_question }}</p>
-          <!-- <input type="email" style="margin-top: 25px;"> -->
+          <!-- Afficher l'input en fonction du type de question -->
+          <div v-if=" actualQuestion.type === 'A' ">
+            <input type="radio"/>
+          </div>
+          <div v-if="actualQuestion.type === 'B' ">
+            <input type="text"/>
+          </div>
+          <div v-if="actualQuestion.type === 'C' ">
+            <input type="number"/>
+          </div>
           <div class="btn">
             <button>Précédent</button>
             <button>Suivant</button>
