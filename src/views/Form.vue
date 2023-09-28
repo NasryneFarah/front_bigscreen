@@ -18,7 +18,7 @@ export default {
         return null;
       }
     },
-  },
+  },  
 
   methods: {
     //La fonction me permet de retourner la liste des questions
@@ -54,7 +54,9 @@ export default {
           <p>{{ actualQuestion.body_question }}</p>
           <!-- Afficher l'input en fonction du type de question -->
           <div v-if=" actualQuestion.type === 'A' ">
-            <input type="radio"/>
+            <!-- <li>
+              <input type="radio"/>
+            </li> -->
           </div>
           <div v-if="actualQuestion.type === 'B' ">
             <input type="text"/>
@@ -62,9 +64,19 @@ export default {
           <div v-if="actualQuestion.type === 'C' ">
             <input type="number"/>
           </div>
+          <!-- Afficher les propositions de réponses lorsque la question est de type A -->
+          <div v-if="actualQuestion.type === 'A'">
+            <ul>
+              <li v-for="(proposition,index) in actualQuestion.proposition" :key="index">
+                <input type="radio" :value="proposition" id="radio"  :name="'radio-group-' + actualQuestion.id" />
+                {{ proposition }}
+              </li>
+            </ul>
+          </div>
           <div class="btn">
             <button>Précédent</button>
-            <button>Suivant</button>
+            <button v-if="index === 19">Finaliser</button> <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
+            <button v-else>Suivant</button>
           </div>
         </div>
       </div>
@@ -81,6 +93,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  list-style: none;
   box-sizing: border-box;
   font-family: "Urbanist", sans-serif;
 }
