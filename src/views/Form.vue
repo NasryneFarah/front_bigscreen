@@ -1,9 +1,14 @@
-<script>
+ <script>
 export default {
   data() {
     return {
       index: 0, //L'index de la question actuelle commence à zéro
+      email:'',
+      errorMessage:"", //message d'erreur  
       question: [], //La liste de mes questions
+      userResponses:[], //Tableau pour stocker toutes les réponses de l'utilisateur
+      userResponse: "",//Variable pour stocker la réponse acuelle de l'utilisateur
+      showPopUp: false, //initailiser à false
     };
   },
 
@@ -18,7 +23,12 @@ export default {
         return null;
       }
     },
-  },  
+    //vérifier si l'email est valide ou pas 
+    isEmailValid() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(this.email);
+  },
+  },
 
   methods: {
     //La fonction me permet de retourner la liste des questions
@@ -36,51 +46,157 @@ export default {
         this.question = res.data;
       }
     },
+
+    // méthode pour passer à la question suivante
+    nextQuestion() {
+      //vérifier si la question actuelle est la première et si l'email est requis 
+      if (this.index === 1) {
+        
+      }
+  if (this.index === this.question.length - 1) {
+    // Si l'utilisateur est sur la dernière question, enregistrez d'abord la réponse
+    this.saveUserResponse();
+    this.index++;
+  } else if (this.index < this.question.length - 1) {
+    // Si l'utilisateur est sur une autre question, enregistrez la réponse et passez à la suivante
+    this.saveUserResponse();
+    this.userResponse = "";
+    this.index++;
+  }
+  console.log(this.userResponses);
+
+  // Si l'utilisateur est sur la dernière question, appelez finalize ici
+  if (this.index === this.question.length) {
+    this.finalize();
+  }
+},
+
+    //une méthode pour sauvegarder les réponses de l'utilisateur dans le tableau  userResponses
+    saveUserResponse(){
+      var actualQuestion = this.actualQuestion;
+      var userAnswersData = {
+        user_answers: this.userResponse,
+        question_id: actualQuestion.id,
+      }
+      if (actualQuestion.id == 1) { // ici j'essaye juste attribuer la valeur de mon user_email à mon user_answers pour pas que le champs soit vide
+        userAnswersData.user_email = this.email;
+        userAnswersData.user_answers = this.email
+      }
+
+        // Vérifier si this.userResponses[this.index] est défini, sinon initialiser comme un tableau vide
+        if (!Array.isArray(this.userResponses[this.index])) {
+        this.userResponses[this.index] = [];
+      }
+
+      // Enregistrez les réponses de l'utilisateur dans userResponses
+    this.userResponses[this.index].push(userAnswersData);
+    },
+
+    // méthode pour passer à la question précédente  userResponses
+    previousQuestion() {
+      if (this.index > 0) { //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
+        this.index--;
+      }
+    },
+
+    //la méthode est utilisée lorsque l'utilisateur clique sur le bouton finaliser
+     async finalize(){
+      try {
+        console.log(this.userResponses)
+        const res = await(await fetch(`${this.API_URL}/response`, {
+            method: "post",
+            headers: {
+              'Content-Type': 'application/json',//On précise le type du contenu
+            },
+            body:JSON.stringify({userResponses:this.userResponses}),
+          })).json();
+
+          if (res.status == 200) {
+            //afficher un message dans le cas ou la sauvegarde réussie
+            alert('Sauvegarde réussie');
+             // Afficher le pop-up
+            this.showPopUp = true;
+          }else{
+        // Afficher une erreur en cas d'échec de la sauvegarde
+      alert('Erreur lors de la sauvegarde des réponses');
+      }
+      }catch(error) {
+        console.error('Erreur lors de la requête API', error);
+      }
+    }
   },
 
   async mounted() {
     // Mounted appelera les fonctions citées à chaque fois que la page se charge
     await this.listQuestions();
   },
- 
+
 };
 </script>
 <template>
   <div class="container" v-if="actualQuestion">
-    <div class="card">
+    <div class="card" @submit.prevent="finalize">
       <div class="box">
         <div class="content">
           <h3>{{ actualQuestion.title }}</h3>
           <p>{{ actualQuestion.body_question }}</p>
-          <!-- Afficher l'input en fonction du type de question -->
-          <div v-if=" actualQuestion.type === 'A' ">
-            <!-- <li>
-              <input type="radio"/>
-            </li> -->
+
+          <div v-if="actualQuestion.type === 'B'">
+            <input
+              v-if="actualQuestion.id === 1"
+              type="text"
+            />
+            <input
+              v-else
+              type="text"
+              v-model="userResponse"
+            />
           </div>
-          <div v-if="actualQuestion.type === 'B' ">
-            <input type="text"/>
+          <div v-if="actualQuestion.type === 'C'">
+            <input type="number" v-model="userResponse" />
           </div>
-          <div v-if="actualQuestion.type === 'C' ">
-            <input type="number"/>
+          <!-- Afficher un message d'erreur si l'email rentré n'est pas correcte -->
+          <div>
+            
           </div>
           <!-- Afficher les propositions de réponses lorsque la question est de type A -->
-          <div v-if="actualQuestion.type === 'A'">
-            <ul>
-              <li v-for="(proposition,index) in actualQuestion.proposition" :key="index">
-                <input type="radio" :value="proposition" id="radio"  :name="'radio-group-' + actualQuestion.id" />
-                {{ proposition }}
-              </li>
-            </ul>
+          <div class="typeA">
+            <div v-if="actualQuestion.type === 'A'">
+              <ul>
+                <li
+                  v-for="(proposition, index) in actualQuestion.proposition"
+                  :key="index"
+                >
+                  <input
+                    type="radio"
+                    :value="proposition"
+                    :name="'radio-group-' + actualQuestion.id"
+                    v-model="userResponse"
+                  />
+                  {{ proposition }}
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="btn">
-            <button>Précédent</button>
-            <button v-if="index === 19">Finaliser</button> <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
-            <button v-else>Suivant</button>
+            <button @click="previousQuestion">Précédent</button>
+            <button v-if="index === 19" @click.prevent="nextQuestion" type="submit">Finaliser</button>
+            <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
+            <button v-else @click="nextQuestion">Suivant</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- Notification pop-up pour afficher le message de succès -->
+  <div class="success-notification" v-if="showPopUp">
+    <h4>
+      Toute l’équipe de Bigscreen vous remercie pour votre engagement. Grâce à
+      votre investissement, nous vous préparons une application toujours plus
+      facile à utiliser, seul ou en famille. Si vous désirez consulter vos
+      réponses ultérieurement, vous pouvez consultez cette adresse:
+      http://xxxxxxxx
+    </h4>
   </div>
 </template>
 
@@ -124,7 +240,7 @@ body .container {
 
 body .container .card {
   position: relative;
-  min-width: 320px;
+  min-width: 520px;
   height: 440px;
   box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
     inset -5px -5px 15px rgba(255, 255, 255, 0.1),
@@ -178,6 +294,10 @@ body .container .card .box .content input {
   border: none;
 }
 
+/* body .container .card .box .content .typeA{
+
+} */
+
 .content .btn {
   display: flex;
   position: relative;
@@ -201,5 +321,47 @@ body .container .card .box .content input {
 .content button:active {
   box-shadow: 0 0 #3a3f87;
   top: 6px;
+}
+
+/* style pour l'erreur par rapport à l'email*/
+
+
+/* style du pop-up */
+.success-notification {
+  background-color: #7089c0;
+  border: none;
+  border-radius: 2px;
+  color: whitesmoke;
+  width: 300px;
+  height: 200px;
+  text-align: center;
+  padding: 10px;
+  /* position: fixed;
+  margin: auto; */
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.8);
+  /* top: 45%; */
+  /* left: 68%; */
+  /* transform: translate(-50%, -50%); */
+  /* z-index: 1000; */
+}
+
+.success-notification.show {
+  display: block;
+  animation: fadeOut 3s;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 </style>
