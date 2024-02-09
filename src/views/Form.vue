@@ -24,10 +24,7 @@ export default {
       }
     },
     //vérifier si l'email est valide ou pas 
-    isEmailValid() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(this.email);
-  },
+ 
   },
 
   methods: {
@@ -145,6 +142,7 @@ export default {
             <input
               v-if="actualQuestion.id === 1"
               type="text"
+              v-model="email"
             />
             <input
               v-else
