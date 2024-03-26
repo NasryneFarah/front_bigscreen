@@ -23,8 +23,11 @@ export default {
         return null;
       }
     },
-    //vérifier si l'email est valide ou pas 
- 
+     // Expression régulière pour valider une adresse e-mail
+    isEmailValid() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(this.email);
+    }
   },
 
   methods: {
@@ -46,10 +49,16 @@ export default {
 
     // méthode pour passer à la question suivante
     nextQuestion() {
-      //vérifier si la question actuelle est la première et si l'email est requis 
-      if (this.index === 1) {
-        
-      }
+      // Vérifier si l'utilisateur a saisi un e-mail valide
+  if (this.actualQuestion.type === 'B' && this.actualQuestion.id === 1 && !this.isEmailValid) {
+    // Afficher un message d'erreur si l'e-mail n'est pas valide
+    this.errorMessage = "Veuillez saisir une adresse e-mail valide.";
+    return; // Arrêter l'exécution de la méthode si l'e-mail n'est pas valide
+  }
+
+   // Effacer le message d'erreur
+   this.errorMessage = "";
+
   if (this.index === this.question.length - 1) {
     // Si l'utilisateur est sur la dernière question, enregistrez d'abord la réponse
     this.saveUserResponse();
@@ -141,8 +150,9 @@ export default {
           <div v-if="actualQuestion.type === 'B'">
             <input
               v-if="actualQuestion.id === 1"
-              type="text"
-              v-model="email"
+              type="email"
+              v-model="email" required
+              :class="{ 'is-invalid': email && !isEmailValid }"
             />
             <input
               v-else
@@ -153,10 +163,12 @@ export default {
           <div v-if="actualQuestion.type === 'C'">
             <input type="number" v-model="userResponse" />
           </div>
-          <!-- Afficher un message d'erreur si l'email rentré n'est pas correcte -->
-          <div>
-            
+
+          <!-- Afficher un message d'erreur si l'e-mail saisi n'est pas valide -->
+          <div v-if="errorMessage" class="error-message">
+          {{ errorMessage }}
           </div>
+        
           <!-- Afficher les propositions de réponses lorsque la question est de type A -->
           <div class="typeA">
             <div v-if="actualQuestion.type === 'A'">
@@ -321,9 +333,6 @@ body .container .card .box .content input {
   top: 6px;
 }
 
-/* style pour l'erreur par rapport à l'email*/
-
-
 /* style du pop-up */
 .success-notification {
   background-color: #7089c0;
@@ -361,5 +370,12 @@ body .container .card .box .content input {
   to {
     opacity: 0;
   }
+}
+
+/* style pour l'erreur par rapport à l'email*/
+
+.error-message {
+  color: red; 
+  margin-top: 5px;
 }
 </style>
