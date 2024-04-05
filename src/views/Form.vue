@@ -1,14 +1,16 @@
- <script>
+<script>
 export default {
   data() {
     return {
       index: 0, //L'index de la question actuelle commence à zéro
-      email:'',
-      errorMessage:"", //message d'erreur  
+      email: "",
+      errorMessage: "", //message d'erreur
       question: [], //La liste de mes questions
-      userResponses:[], //Tableau pour stocker toutes les réponses de l'utilisateur
-      userResponse: "",//Variable pour stocker la réponse acuelle de l'utilisateur
+      userResponses: [], //Tableau pour stocker toutes les réponses de l'utilisateur
+      userResponse: "", //Variable pour stocker la réponse acuelle de l'utilisateur
       showPopUp: false, //initailiser à false
+      uuid: "", // Propriété pour stocker l'UUID de l'utilisateur
+      link: "", 
     };
   },
 
@@ -23,11 +25,11 @@ export default {
         return null;
       }
     },
-     // Expression régulière pour valider une adresse e-mail
+    // Expression régulière pour valider une adresse e-mail
     isEmailValid() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(this.email);
-    }
+    },
   },
 
   methods: {
@@ -47,96 +49,183 @@ export default {
       }
     },
 
+    // / un évènement pour pouvoir passer aux questions suivantes ou revenir grâce au touche du clavier
+    handleKeyPress(event) {
+  if (event.key === "ArrowRight") {
+    // Aller à la question suivante lorsque la touche droite est enfoncée
+    this.nextQuestion();
+  } else if (event.key === "ArrowLeft") {
+    // Aller à la question précédente lorsque la touche gauche est enfoncée
+    this.previousQuestion();
+  }
+},
     // méthode pour passer à la question suivante
     nextQuestion() {
       // Vérifier si l'utilisateur a saisi un e-mail valide
-  if (this.actualQuestion.type === 'B' && this.actualQuestion.id === 1 && !this.isEmailValid) {
-    // Afficher un message d'erreur si l'e-mail n'est pas valide
-    this.errorMessage = "Veuillez saisir une adresse e-mail valide.";
-    return; // Arrêter l'exécution de la méthode si l'e-mail n'est pas valide
-  }
+      if (
+        this.actualQuestion.type === "B" &&
+        this.actualQuestion.id === 1 &&
+        !this.isEmailValid
+      ) {
+        // Afficher un message d'erreur si l'e-mail n'est pas valide
+        this.errorMessage = "Veuillez saisir une adresse e-mail valide.";
+        return; // Arrêter l'exécution de la méthode si l'e-mail n'est pas valide
+      }
 
-   // Effacer le message d'erreur
-   this.errorMessage = "";
+      // Effacer le message d'erreur
+      this.errorMessage = "";
 
-  if (this.index === this.question.length - 1) {
-    // Si l'utilisateur est sur la dernière question, enregistrez d'abord la réponse
-    this.saveUserResponse();
-    this.index++;
-  } else if (this.index < this.question.length - 1) {
-    // Si l'utilisateur est sur une autre question, enregistrez la réponse et passez à la suivante
-    this.saveUserResponse();
-    this.userResponse = "";
-    this.index++;
-  }
-  console.log(this.userResponses);
+      if (this.index === this.question.length - 1) {
+        // Si l'utilisateur est sur la dernière question, enregistrez d'abord la réponse
+        this.saveUserResponse();
+        this.index++;
+      } else if (this.index < this.question.length - 1) {
+        // Si l'utilisateur est sur une autre question, enregistrez la réponse et passez à la suivante
+        this.saveUserResponse();
+        this.userResponse = "";
+        this.index++;
+      }
+      console.log(this.userResponses);
 
-  // Si l'utilisateur est sur la dernière question, appelez finalize ici
-  if (this.index === this.question.length) {
-    this.finalize();
-  }
-},
+      // Si l'utilisateur est sur la dernière question, appelez finalize ici
+      if (this.index === this.question.length) {
+        this.finalize();
+      }
+    },
 
     //une méthode pour sauvegarder les réponses de l'utilisateur dans le tableau  userResponses
-    saveUserResponse(){
+    saveUserResponse() {
       var actualQuestion = this.actualQuestion;
       var userAnswersData = {
         user_answers: this.userResponse,
         question_id: actualQuestion.id,
-      }
-      if (actualQuestion.id == 1) { // ici j'essaye juste attribuer la valeur de mon user_email à mon user_answers pour pas que le champs soit vide
+      };
+      if (actualQuestion.id == 1) {
+        // ici j'essaye juste attribuer la valeur de mon user_email à mon user_answers pour pas que le champs soit vide
         userAnswersData.user_email = this.email;
-        userAnswersData.user_answers = this.email
+        userAnswersData.user_answers = this.email;
       }
 
-        // Vérifier si this.userResponses[this.index] est défini, sinon initialiser comme un tableau vide
-        if (!Array.isArray(this.userResponses[this.index])) {
+      // Vérifier si this.userResponses[this.index] est défini, sinon initialiser comme un tableau vide
+      if (!Array.isArray(this.userResponses[this.index])) {
         this.userResponses[this.index] = [];
       }
 
       // Enregistrez les réponses de l'utilisateur dans userResponses
-    this.userResponses[this.index].push(userAnswersData);
+      this.userResponses[this.index].push(userAnswersData);
     },
 
     // méthode pour passer à la question précédente  userResponses
     previousQuestion() {
-      if (this.index > 0) { //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
+      if (this.index > 0) {
+        //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
         this.index--;
       }
     },
 
     //la méthode est utilisée lorsque l'utilisateur clique sur le bouton finaliser
-     async finalize(){
+    async finalize() {
       try {
-        console.log(this.userResponses)
-        const res = await(await fetch(`${this.API_URL}/response`, {
+        console.log(this.userResponses);
+        const res = await (
+          await fetch(`${this.API_URL}/response`, {
             method: "post",
             headers: {
-              'Content-Type': 'application/json',//On précise le type du contenu
+              "Content-Type": "application/json", //On précise le type du contenu
             },
-            body:JSON.stringify({userResponses:this.userResponses}),
-          })).json();
+            body: JSON.stringify({ userResponses: this.userResponses }),
+          })
+        ).json();
 
-          if (res.status == 200) {
-            //afficher un message dans le cas ou la sauvegarde réussie
-            alert('Sauvegarde réussie');
-             // Afficher le pop-up
-            this.showPopUp = true;
-          }else{
-        // Afficher une erreur en cas d'échec de la sauvegarde
-      alert('Erreur lors de la sauvegarde des réponses');
+        if (res.status == 200) {
+          //afficher un message dans le cas ou la sauvegarde réussie
+          alert("Sauvegarde réussie");
+
+          // Afficher le pop-up
+          this.showPopUp = true;
+
+          // récupérer l'uuid de l'utilisateur
+          this.uuid = res.uuid;
+          
+          // Appel pour récupérer les réponses de l'utilisateur
+          await this.showResponse();
+
+          // Générer le lien avec l'UUID de l'utilisateur
+          this.link = `http://www.mesreponses.com/responses/${this.uuid}`;
+
+          // const link = `http://www.mesreponses.com/responses/${uuid}`;
+          // console.log(link);
+        } else {
+          // Afficher une erreur en cas d'échec de la sauvegarde
+          alert("Erreur lors de la sauvegarde des réponses");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la requête API", error);
       }
-      }catch(error) {
-        console.error('Erreur lors de la requête API', error);
+    },
+
+    //la fonction pour afficher la liste des réponses des utilisateurs
+  async showResponse() {
+    try {
+      if (this.uuid) {
+      const res = await (
+        await fetch(`${this.API_URL}/responses/${this.uuid}`, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      ).json();
+
+      if (res.status == 200) {
+        this.userResponses = res.data;
+      } else {
+        console.error("Erreur lors de la récupération des réponses utilisateur");
       }
     }
+  } catch (error) {
+    console.error('Erreur lors de la requête API', error);
+  }
+      //   const res = await (
+      //     await fetch(`${this.API_URL}/responses/${this.uuid}`, {
+      //       method: "get",
+      //       headers: {
+      //         "Content-Type": "application/json", //On précise le type du contenu
+      //       },
+      //     })
+      //   ).json();
+
+      //   if (res.status == 200) {
+      //     this.userResponses = res.data
+      //   } else {
+      //     console.error("Erreur lors de la récupération des réponses utilisateur");
+      //   }
+      // } catch (error) {
+      //   console.error('Erreur lors de la requête API', error);
+      // }
+  },
   },
 
   async mounted() {
     // Mounted appelera les fonctions citées à chaque fois que la page se charge
     await this.listQuestions();
-  },
 
+    // Écouter les événements de touche lorsqu'un composant est monté
+    window.addEventListener("keydown", this.handleKeyPress);
+
+    // Écouter les événements de touche pour la touche Entrée
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        // Enregistrer la réponse de l'utilisateur avant de finaliser
+        this.saveUserResponse();
+        this.finalize();
+      }
+    });
+  },  
+  beforeDestroy() {
+    // Supprimer les écouteurs d'événements lorsqu'un composant est démonté pour éviter les fuites de mémoire
+    window.removeEventListener("keydown", this.handleKeyPress);
+  },
 };
 </script>
 <template>
@@ -151,14 +240,11 @@ export default {
             <input
               v-if="actualQuestion.id === 1"
               type="email"
-              v-model="email" required
-              :class="{ 'is-invalid': email && !isEmailValid }"
+              v-model="email"
+              required
+              :class="{'is-invalid': email && !isEmailValid }"
             />
-            <input
-              v-else
-              type="text"
-              v-model="userResponse"
-            />
+            <input v-else type="text" v-model="userResponse" />
           </div>
           <div v-if="actualQuestion.type === 'C'">
             <input type="number" v-model="userResponse" />
@@ -166,9 +252,9 @@ export default {
 
           <!-- Afficher un message d'erreur si l'e-mail saisi n'est pas valide -->
           <div v-if="errorMessage" class="error-message">
-          {{ errorMessage }}
+            {{ errorMessage }}
           </div>
-        
+
           <!-- Afficher les propositions de réponses lorsque la question est de type A -->
           <div class="typeA">
             <div v-if="actualQuestion.type === 'A'">
@@ -190,7 +276,13 @@ export default {
           </div>
           <div class="btn">
             <button @click="previousQuestion">Précédent</button>
-            <button v-if="index === 19" @click.prevent="nextQuestion" type="submit">Finaliser</button>
+            <button
+              v-if="index === 19"
+              @click.prevent="nextQuestion"
+              type="submit"
+            >
+              Finaliser
+            </button>
             <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
             <button v-else @click="nextQuestion">Suivant</button>
           </div>
@@ -205,7 +297,7 @@ export default {
       votre investissement, nous vous préparons une application toujours plus
       facile à utiliser, seul ou en famille. Si vous désirez consulter vos
       réponses ultérieurement, vous pouvez consultez cette adresse:
-      http://xxxxxxxx
+      <a :href="link">{{ link }}</a>
     </h4>
   </div>
 </template>
@@ -375,7 +467,7 @@ body .container .card .box .content input {
 /* style pour l'erreur par rapport à l'email*/
 
 .error-message {
-  color: red; 
+  color: red;
   margin-top: 5px;
 }
 </style>
