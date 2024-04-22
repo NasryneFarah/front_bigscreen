@@ -115,7 +115,7 @@ export default {
       this.userResponses[this.index].push(userAnswersData);
     },
 
-    // méthode pour passer à la question précédente  userResponses
+    // méthode pour revenir à la question précédente  userResponses
     previousQuestion() {
       if (this.index > 0) {
         //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
@@ -222,10 +222,6 @@ export default {
       }
     });
   },  
-  beforeDestroy() {
-    // Supprimer les écouteurs d'événements lorsqu'un composant est démonté pour éviter les fuites de mémoire
-    window.removeEventListener("keydown", this.handleKeyPress);
-  },
 };
 </script>
 <template>
@@ -247,7 +243,7 @@ export default {
             <input v-else type="text" v-model="userResponse" />
           </div>
           <div v-if="actualQuestion.type === 'C'">
-            <input type="number" v-model="userResponse" />
+            <input type="number"  v-model="userResponse" />
           </div>
 
           <!-- Afficher un message d'erreur si l'e-mail saisi n'est pas valide -->
@@ -275,14 +271,9 @@ export default {
             </div>
           </div>
           <div class="btn">
+            <!-- bouton pour revenir à la question précédente -->
             <button @click="previousQuestion">Précédent</button>
-            <button
-              v-if="index === 19"
-              @click.prevent="nextQuestion"
-              type="submit"
-            >
-              Finaliser
-            </button>
+            <button v-if="index === 19" @click.prevent="nextQuestion" type="submit"> Finaliser</button>
             <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
             <button v-else @click="nextQuestion">Suivant</button>
           </div>

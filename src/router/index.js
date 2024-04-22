@@ -28,11 +28,17 @@ const router = createRouter({
       name: 'survey',
       component:() => import('../views/admin/Survey.vue')
     },
-    //la route permettant aux utilisateurs de répondre aux réquestions
+    //la route permettant aux utilisateurs de répondre aux questions
     {
       path: '/form',
       name: 'form',
       component:() => import('../views/Form.vue')
+    },
+     //la route permettant aux utilisateurs d'avoir accès à leurs réponses
+     {
+      path: '/ResponseUser',
+      name: 'ResponseUser',
+      component:() => import('../views/ResponseUser.vue')
     },
    
   ]
