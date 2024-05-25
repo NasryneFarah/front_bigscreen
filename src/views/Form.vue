@@ -146,15 +146,13 @@ export default {
 
           // récupérer l'uuid de l'utilisateur
           this.uuid = res.uuid;
-          
-          // Appel pour récupérer les réponses de l'utilisateur
-          await this.showResponse();
+          console.log(this.uuid);
 
           // Générer le lien avec l'UUID de l'utilisateur
-          this.link = `http://www.mesreponses.com/responses/${this.uuid}`;
+          this.link = `http://localhost/responses/${this.uuid.uuid}`;
 
-          // const link = `http://www.mesreponses.com/responses/${uuid}`;
-          // console.log(link);
+          // Appel pour récupérer les réponses de l'utilisateur
+          await this.showResponse();
         } else {
           // Afficher une erreur en cas d'échec de la sauvegarde
           alert("Erreur lors de la sauvegarde des réponses");
@@ -204,6 +202,17 @@ export default {
       //   console.error('Erreur lors de la requête API', error);
       // }
   },
+
+  // Rediriger l'utilisateur vers la page des réponses grâce à son uuid 
+   redirectToResponsePage() {
+    if (this.uuid && this.uuid.uuid) {
+    // Assurez-vous que this.uuid est défini et contient un UUID valide
+    window.location.href = `/responses/${this.uuid.uuid}`;
+  } else {
+    console.error("UUID invalide ou non défini.");
+  }
+  },
+
   },
 
   async mounted() {
@@ -288,7 +297,8 @@ export default {
       votre investissement, nous vous préparons une application toujours plus
       facile à utiliser, seul ou en famille. Si vous désirez consulter vos
       réponses ultérieurement, vous pouvez consultez cette adresse:
-      <a :href="link">{{ link }}</a>
+      <!-- <router-link to="/respones">{{ this.link }}</router-link> -->
+      <a :href="this.link" @click="redirectToResponsePage">{{ this.link }}</a>
     </h4>
   </div>
 </template>

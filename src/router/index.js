@@ -12,21 +12,21 @@ const router = createRouter({
     },
     //la route me redirigeant sur la page de connexion de l'admin
     {
-      path: '/login',
+      path: '/administration/login',
       name: 'login',
       component:() => import('../views/admin/Login.vue')
     },
     //la route me permettant d'accéder au dashboard de l'admin
     {
-      path: '/dashboard',
+      path: '/administration',
       name: 'dashboard',
-      component:() => import('../views/admin/Dashboard.vue')
+      component:() => import('../views/admin/Dashboard.vue') //la page d'accueil de l'admin
     },
     //la route permettant à l'admin d'accéder à la liste des questions
     {
-      path: '/survey',
+      path: '/administration/questions',
       name: 'survey',
-      component:() => import('../views/admin/Survey.vue')
+      component:() => import('../views/admin/Survey.vue') //la page des questions sur le dashboard de l'admin
     },
     //la route permettant aux utilisateurs de répondre aux questions
     {
@@ -36,9 +36,10 @@ const router = createRouter({
     },
      //la route permettant aux utilisateurs d'avoir accès à leurs réponses
      {
-      path: '/ResponseUser',
+      path: '/responses/:uuid',
       name: 'ResponseUser',
-      component:() => import('../views/ResponseUser.vue')
+      component:() => import('../views/ResponseUser.vue'),
+      props: true // Permet de passer les paramètres de l'URL comme props à la composante ResponseUser
     },
    
   ]

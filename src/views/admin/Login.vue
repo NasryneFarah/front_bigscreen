@@ -24,7 +24,7 @@ methods: {
         ).json();
 
         if (res.status == 'Utilisateur connecté') {
-            window.location.href = "/dashboard"; // Redirection vers la page "/dashboard" si la connexion est réussie
+            window.location.href = "/administration"; // Redirection vers la page "/dashboard" si la connexion est réussie
       } else {
         console.error(res.error);
       }
@@ -37,7 +37,7 @@ methods: {
    <div class="container" >
     <form action="#" @submit.prevent="submit()">
   <div class="brand-logo">
-    <img src="public/assets/images/logo_bigscreen.png" width="30">
+    <img src=" ../../public/assets/images/logo_bigscreen.png" width="30">
   </div>
   <div class="brand-title">Bigscreen</div>
   <div class="inputs">

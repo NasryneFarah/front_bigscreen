@@ -39,19 +39,19 @@ export default {
       <!-- le menu à gauche -->
       <div class="sidebar">
 
-        <router-link to="/Dashboard">
-            <img src="public/assets/images/logo_bigscreen.png" width="150" />
+        <router-link to="/administration">
+            <img src=" ../../public/assets/images/logo_bigscreen.png" width="150">
         </router-link>
        
         <ul>
           <li>
-            <router-link to="/Dashboard">
+            <router-link to="/administration">
                 <a href="#"><i class="fas fa-solid fa-house" style="color: #7089c0"></i>Accueil</a>
             </router-link>
           </li>
 
           <li>
-            <router-link to="/Survey">
+            <router-link to="/administration/questions">
                 <a href="#"><i class="fas fa-solid fa-question" style="color: #7089c0"></i>Questionnaire</a>
             </router-link>
           </li>
