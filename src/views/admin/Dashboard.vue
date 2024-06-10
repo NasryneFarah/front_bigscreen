@@ -5,6 +5,7 @@ export default {
       responses6: [], //pour récupérer le nombre de réponses de la question 6
       responses7: [], //pour récupérer le nombre de réponses de la question 7
       responses8: [], //pour récupérer le nombre de réponses de la question 8
+     answer_Quality:{} //pour récupérer les taux des réponses des questions 11 à 15
     };
   },
 
@@ -26,10 +27,12 @@ export default {
         this.responses6 = res.question6;
         this.responses7 = res.question7;
         this.responses8 = res.question8;
+        this.answer_Quality= res.averages;
         //les fonctions qui afficheront mes graphiques
         this.graphOne();
         this.graphTwo();
         this.graphThree();
+        this.graphFour();
       }
     },
 
@@ -77,6 +80,7 @@ export default {
             padding: 20, // Espacement entre les éléments de légende
             font:{
               size: "17", //taille des légendes
+              family: 'Urbanist, sans-serif' // Police de caractères des labels
             }
           },
         },
@@ -93,8 +97,8 @@ export default {
               data:Numbers,
               fill: true,
               backgroundColor: colors,
-              borderColor: "rgb(255, 99, 132)",
-              pointBackgroundColor: "rgb(255, 99, 132)",
+              borderColor: "rgb(228, 224, 247)",
+              pointBackgroundColor: "rgb(233, 197, 197)",
               pointBorderColor: "#fff",
               pointHoverBackgroundColor: "#fff",
               pointHoverBorderColor: "rgb(255, 99, 132)",
@@ -104,6 +108,47 @@ export default {
         const myChart = new Chart(ctx, {
           type: type,
           data: data,
+          options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        color: 'rgb(216, 148, 134)' // Couleur des lignes d'angle
+                    },
+                    grid: {
+                        color: 'rgb(247, 246, 243)' // Couleur de la grille
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.8)', // Couleur des étiquettes de ticks
+                        backdropColor: 'rgba(0, 0, 0, 0.1)', // Couleur de fond derrière les ticks
+                        font: {
+                            size: 14,
+                            family: 'Urbanist, sans-serif', // Police de caractères
+                        }
+                    },
+                    pointLabels: {
+                        color: 'rgb(34, 30, 66)', // Couleur des labels
+                        font: {
+                            size: 13,
+                            family: 'Urbanist, sans-serif', // Police de caractères des labels
+                            weight: 'bold' // Rendre la police des ticks en gras
+                        },
+                      
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'rgba(255, 255, 255)', // Couleur des labels de la légende
+                        font: {
+                            size: 17,
+                            family: 'Urbanist, sans-serif' // Police de caractères des labels de la légende
+                        }
+                    }
+                }
+            }
+        }
         });
       }
     },
@@ -115,7 +160,7 @@ export default {
           "Oculus Quest",
           "Oculus Rift/s",
           "HTC Vive",
-          " Windows Mixed Reality",
+          "Windows Mixed Reality",
           "Valve index"
         ];
         var data = [];
@@ -125,11 +170,6 @@ export default {
         "rgb(231, 215, 201)",
         "rgb(237, 233, 227)",
         "rgb(163, 143, 134)",
-        // "rgb(0, 0, 0)",
-        // "rgb(179, 186, 192)",
-        // "rgb(255, 255, 255)",
-        // "rgb(103, 107, 110)",
-        // "rgb(219, 228, 235)",
       ];
       var type = "pie";
       
@@ -187,6 +227,34 @@ export default {
       var data = labels.map((label) => questions8[label] || 0); //je récupéres les valeurs de chaque labels
 
       this. chartType(id, labels, data, colors, type,); //j'appelle ma fonction chartType et je retourne les infos en paramètre
+    },
+
+    // fonction pour le 4ème graphique
+    graphFour(){
+        var id = "graphFour"; 
+        var labels = [
+        "Qualité d'image",
+        "Confort d'utilisation",
+        "Connexion Réseau",
+        "Qualité des graphismes 3D", 
+        "Qualité Audio", 
+      ];
+      var data = [];
+      var colors = ["rgb(187, 176, 203, 0.8)"];
+      var type = "radar";
+
+      var questions = [
+        "average11",
+        "average12",
+        "average13",
+        "average14",
+        "average15",
+      ];
+      var quality = this.answer_Quality;
+      var data = questions.map((element) => quality[element]);
+      console.log(data);
+
+      this. chartType(id, labels, data, colors, type); //j'appelle ma fonction chartType et je retourne les infos en paramètre
     }
   },
 
@@ -195,6 +263,7 @@ export default {
     this.graphOne;
     this.graphTwo;
     this.graphThree;
+    this.graphFour;
   },
 };
 </script>
@@ -266,8 +335,8 @@ export default {
       <!-- chart 4 -->
       <div class="chart">
         <div class="title">
-          <h1>Statisque des question 11 à 15</h1>
-          <canvas id="graphOne" width="50" height="50"></canvas>
+          <h1>Statisque des questions 11 à 15</h1>
+          <canvas id="graphFour" width="500" height="500"></canvas>
         </div>
       </div>
       <!-- fin des charts -->
