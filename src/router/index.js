@@ -36,7 +36,7 @@ const router = createRouter({
     },
      //la route permettant aux utilisateurs d'avoir accès à leurs réponses
      {
-      path: '/responses/:uuid',
+      path: '/responses/',
       name: 'ResponseUser',
       component:() => import('../views/ResponseUser.vue'),
       props: true // Permet de passer les paramètres de l'URL comme props à la composante ResponseUser

@@ -123,7 +123,8 @@ export default {
                         font: {
                             size: 14,
                             family: 'Urbanist, sans-serif', // Police de caractères
-                        }
+                        },
+                        stepSize: 0.2, // Taille de chaque pas pour les ticks
                     },
                     pointLabels: {
                         color: 'rgb(34, 30, 66)', // Couleur des labels
@@ -132,7 +133,6 @@ export default {
                             family: 'Urbanist, sans-serif', // Police de caractères des labels
                             weight: 'bold' // Rendre la police des ticks en gras
                         },
-                      
                     }
                 }
             },
