@@ -1,9 +1,17 @@
 <script>
-export default{
+import { defineComponent } from 'vue'
+export default defineComponent({
+    props: {
+      uuid: String
+    },
+    setup(props) {
+      props.uuid
+    },
     data(){
         return{
             index: 0, //L'index de la question actuelle commence à zéro
-            question: [], // liste des questions
+            questions: [], // liste des questions
+            responses: [],
             currentDate: '', //la date du jour
             currentTime: '', //l'heure du jour 
         }
@@ -11,10 +19,14 @@ export default{
 
     computed: {
     //la fonction me permet de retourner chaque question en fonction de leur index
-    actualQuestion() {
+    currentParticipantData() {
       //vérifier si l'index est valide entre 0 et la longueur des questions -1
-      if (this.index >= 0 && this.index < this.question.length) {
-        return this.question[this.index];
+      if (this.index >= 0 && this.index < this.questions.length) {
+        console.log(this.index)
+        return {
+         question:this.questions[this.index],
+         response:this.responses[this.index]
+        };
       } else {
         //si l'index est invalide
         return null;
@@ -41,7 +53,7 @@ export default{
     },
 
     //La fonction me permet de retourner la liste des questions
-    async listQuestions() {
+    async getQuestions() {
       const res = await (
         await fetch(`${this.API_URL}/listes_questions`, {
           method: "get",
@@ -52,7 +64,7 @@ export default{
       ).json();
 
       if (res.status == 200) {
-        this.question = res.data;
+        this.questions = res.data;
       }
     },
 
@@ -68,7 +80,7 @@ export default{
 },
     // méthode pour passer à la question suivante
     nextQuestion() {
-    if (this.index < this.question.length - 1) {
+    if (this.index < this.questions.length - 1) {
             this.index++;
         }
     },
@@ -82,7 +94,7 @@ export default{
     },
 
     //la fonction pour afficher la liste des réponses des utilisateurs
-  async showResponse() {
+  async getResponses() {
     try {
       if (this.uuid) {
       const res = await (
@@ -95,7 +107,7 @@ export default{
       ).json();
 
       if (res.status == 200) {
-        this.userResponses = res.data;
+        this.responses = res.data; 
       } else {
         console.error("Erreur lors de la récupération des réponses utilisateur");
       }
@@ -103,29 +115,13 @@ export default{
   } catch (error) {
     console.error('Erreur lors de la requête API', error);
   }
-      //   const res = await (
-      //     await fetch(`${this.API_URL}/responses/${this.uuid}`, {
-      //       method: "get",
-      //       headers: {
-      //         "Content-Type": "application/json", //On précise le type du contenu
-      //       },
-      //     })
-      //   ).json();
-
-      //   if (res.status == 200) {
-      //     this.userResponses = res.data
-      //   } else {
-      //     console.error("Erreur lors de la récupération des réponses utilisateur");
-      //   }
-      // } catch (error) {
-      //   console.error('Erreur lors de la requête API', error);
-      // }
   },
   },
 
   async mounted() {
     // Mounted appelera les fonctions citées à chaque fois que la page se charge
-    await this.listQuestions();
+    await this.getQuestions();
+    await this.getResponses();
 
     // Écouter les événements de touche lorsqu'un composant est monté
     window.addEventListener("keydown", this.handleKeyPress);
@@ -142,7 +138,7 @@ export default{
     //l'heure et la date du jour
     this.getCurrentDateTime();
   },
-}
+})
 </script>
 
 <template>
@@ -166,11 +162,11 @@ export default{
 
     <!-- les cards affichant les réponses -->
     <div class="card-container">
-        <div class="card" v-if="actualQuestion">
-            <h3>{{ actualQuestion.title }}</h3>
+        <div class="card" v-if="currentParticipantData">
+            <h3>{{ currentParticipantData.question.title }}</h3>
             <div class="card-content">
-                <h4>{{ actualQuestion.body_question }}</h4>
-                <div class="response">farahyedidah&gmail.com</div>
+                <h4>{{ currentParticipantData.question.question_value }}</h4>
+                <div class="response">{{currentParticipantData.response.value}}</div>
             </div>
             <div class="btn">
                 <button @click="previousQuestion">Précédent</button>

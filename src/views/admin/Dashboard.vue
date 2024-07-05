@@ -291,7 +291,7 @@ export default {
           </router-link>
         </li>
         <li>
-          <router-link to="">
+          <router-link to="/administration/responses">
             <a href="#"
               ><i class="fas fa-solid fa-scroll" style="color: #7089c0"></i
               >Réponses</a

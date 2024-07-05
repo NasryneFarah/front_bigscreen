@@ -57,7 +57,7 @@ export default {
           </li>
 
           <li>
-            <router-link to="">
+            <router-link to="/administration/responses">
                 <a href="#"><i class="fas fa-solid fa-scroll" style="color: #7089c0"></i>Réponses</a>
             </router-link>
           </li>
@@ -84,7 +84,7 @@ export default {
                 <tr>
                     <td>{{ q.id }}</td>
                     <td>{{ q.title }}</td>
-                    <td>{{ q.body_question }}</td>
+                    <td>{{ q.question_valueb }}</td>
                     <td>{{ q.type }}</td>
                 </tr>
 

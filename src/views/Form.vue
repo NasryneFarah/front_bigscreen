@@ -85,8 +85,7 @@ export default {
         this.userResponse = "";
         this.index++;
       }
-      console.log(this.userResponses);
-
+      
       // Si l'utilisateur est sur la dernière question, appelez finalize ici
       if (this.index === this.question.length) {
         this.finalize();
@@ -97,13 +96,13 @@ export default {
     saveUserResponse() {
       var actualQuestion = this.actualQuestion;
       var userAnswersData = {
-        user_answers: this.userResponse,
+        value: this.userResponse,
         question_id: actualQuestion.id,
       };
       if (actualQuestion.id == 1) {
-        // ici j'essaye juste attribuer la valeur de mon user_email à mon user_answers pour pas que le champs soit vide
+        // ici j'essaye juste attribuer la valeur de mon user_email à mon value pour pas que le champs soit vide
         userAnswersData.user_email = this.email;
-        userAnswersData.user_answers = this.email;
+        userAnswersData.value = this.email;
       }
 
       // Vérifier si this.userResponses[this.index] est défini, sinon initialiser comme un tableau vide
@@ -126,7 +125,6 @@ export default {
     //la méthode est utilisée lorsque l'utilisateur clique sur le bouton finaliser
     async finalize() {
       try {
-        console.log(this.userResponses);
         const res = await (
           await fetch(`${this.API_URL}/response`, {
             method: "post",
@@ -144,12 +142,8 @@ export default {
           // Afficher le pop-up
           this.showPopUp = true;
 
-          // récupérer l'uuid de l'utilisateur
-          this.uuid = res.uuid;
-          console.log(this.uuid);
-
           // Générer le lien avec l'UUID de l'utilisateur
-          this.link = `http://localhost/responses/${this.uuid.uuid}`;
+          this.link = `${location.origin}/responses/${res.data.uuid}`;
 
           // Appel pour récupérer les réponses de l'utilisateur
           await this.showResponse();
@@ -184,23 +178,6 @@ export default {
   } catch (error) {
     console.error('Erreur lors de la requête API', error);
   }
-      //   const res = await (
-      //     await fetch(`${this.API_URL}/responses/${this.uuid}`, {
-      //       method: "get",
-      //       headers: {
-      //         "Content-Type": "application/json", //On précise le type du contenu
-      //       },
-      //     })
-      //   ).json();
-
-      //   if (res.status == 200) {
-      //     this.userResponses = res.data
-      //   } else {
-      //     console.error("Erreur lors de la récupération des réponses utilisateur");
-      //   }
-      // } catch (error) {
-      //   console.error('Erreur lors de la requête API', error);
-      // }
   },
 
   // Rediriger l'utilisateur vers la page des réponses grâce à son uuid 
@@ -239,7 +216,7 @@ export default {
       <div class="box">
         <div class="content">
           <h3>{{ actualQuestion.title }}</h3>
-          <p>{{ actualQuestion.body_question }}</p>
+          <p>{{ actualQuestion.question_value }}</p>
 
           <div v-if="actualQuestion.type === 'B'">
             <input
