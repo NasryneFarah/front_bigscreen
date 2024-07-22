@@ -1,6 +1,8 @@
 <script>
-import { defineComponent } from 'vue'
-export default defineComponent({
+import { defineComponent } from 'vue' // j'importe depuis le package de vue defineComponent qui est une fonction fournie par vue pour définir des composants de manière typée
+
+export default defineComponent({ //ici j'exporte par défaut un objet qui représente un composant Vue.Cet objet est défini en utilisant la fonction defineComponent.
+
     props: {
       uuid: String
     },
@@ -11,7 +13,7 @@ export default defineComponent({
         return{
             index: 0, //L'index de la question actuelle commence à zéro
             questions: [], // liste des questions
-            responses: [],
+            responses: [],//listes des réponses
             currentDate: '', //la date du jour
             currentTime: '', //l'heure du jour 
         }
@@ -93,7 +95,7 @@ export default defineComponent({
       }
     },
 
-    //la fonction pour afficher la liste des réponses des utilisateurs
+    //la fonction me permet d'afficher les réponses en fonction de l'uuid de l'utilisateur
   async getResponses() {
     try {
       if (this.uuid) {

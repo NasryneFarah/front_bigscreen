@@ -1,14 +1,14 @@
 <script setup>
-import UserSurvey from '../../components/UserSurvey.vue'
+import UserSurvey from '../../components/UserSurvey.vue';
+import { ref } from 'vue';
+import Paginator from 'primevue/paginator';
+const answersIndex = ref(0);
 </script>
 <script>
 export default {
     data() {
         return {
-          answersByUuid: [],
-          // groupedAnswers: []
-            // pagination: {},
-            // currentPage: 1,
+          answersByUuid: {},
         }
     },
     computed: { 
@@ -26,16 +26,15 @@ export default {
             ).json();
 
             // je fais une condition
-            if (res.status == 200) {
-                this.answersByUuid = res.data.reduce((answer, item)=> {
-                  const {id, question_value, value, uuid_id} = item;
-
-                answer[uuid_id] = [...answer[uuid_id] || [] , {
-                  id, question_value, value
-                }];
-                return answer;
-
-                });
+            if (res.status === 200) {
+                this.answersByUuid = res.data.reduce((acc, item) => {
+                    const { id, question_value, value, uuid_id } = item;
+                    if (!acc[uuid_id]) {
+                        acc[uuid_id] = [];
+                    }
+                    acc[uuid_id].push({ id, question_value, value });
+                    return acc;
+                }, {});
             }
         },
     },
@@ -80,13 +79,12 @@ export default {
       <!-- corps du dashboard -->
       <div class="main-content">
         <div class="header">Affichage de toutes les réponses du sondage <i class="fa-solid fa-table-list fa-bounce" ></i></div>
-
-        <!-- Le tableau pour afficher la liste des questions -->
-        <UserSurvey v-for="el in answersByUuid" :key="el.id" :answerByUuid="el"/>
-    <!-- <div class="pagination">
-      <button @click="prevPage" :disabled="!pagination.prev_page_url">Previous</button>
-      <button @click="nextPage" :disabled="!pagination.next_page_url">Next</button>
-    </div> -->
+         <!--  -->
+      <UserSurvey :answerByUuid="answersByUuid[answersIndex + 1]"/>
+      <!-- pagination -->
+      <div class="pagination">
+      <Paginator v-model:answersIndex="answersIndex" :rows="1" :totalRecords="Object.values(answersByUuid).length"  />
+    </div>
       </div>
     </div>
     </div>
@@ -220,9 +218,9 @@ tbody tr:last-of-type{
   margin-bottom: 20px;
 }
 
-.pagination {
+/* .pagination {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-}
+} */
 </style>

@@ -84,7 +84,7 @@ export default {
                 <tr>
                     <td>{{ q.id }}</td>
                     <td>{{ q.title }}</td>
-                    <td>{{ q.question_valueb }}</td>
+                    <td>{{ q.question_value }}</td>
                     <td>{{ q.type }}</td>
                 </tr>
 
