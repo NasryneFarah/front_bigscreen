@@ -218,9 +218,8 @@ tbody tr:last-of-type{
   margin-bottom: 20px;
 }
 
-/* .pagination {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-} */
+.pagination {
+  cursor: pointer;
+  margin: 20px !important;
+}
 </style>
