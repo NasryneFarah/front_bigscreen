@@ -11,6 +11,7 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
     },
     data(){
         return{
+            loading: true, //ça indique que mon loader est visible au début 
             index: 0, //L'index de la question actuelle commence à zéro
             questions: [], // liste des questions
             responses: [],//listes des réponses
@@ -37,6 +38,13 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
   },
 
   methods: {
+    //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
+    hideLoaderWithDelay() { 
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000); // Le loader disparaîtra après 3 secondes
+    },
+
     //afficher l'heure te la date du jour 
     getCurrentDateTime() {
     const now = new Date();
@@ -120,8 +128,9 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
   },
   },
 
-  async mounted() {
-    // Mounted appelera les fonctions citées à chaque fois que la page se charge
+  async mounted() { // Mounted appelera les fonctions citées à chaque fois que la page se charge
+    this.hideLoaderWithDelay();
+    
     await this.getQuestions();
     await this.getResponses();
 
@@ -144,6 +153,14 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
 </script>
 
 <template>
+    <!-- loader de la page  -->
+ <!-- transition est un composant vue qui me permet d'appliquer des effets à mes éléments -->
+ <transition name="fade">
+    <div class="loader" v-if="loading" >
+   <div data-glitch="Bigscreen..." class="glitch">Bigscreen...</div>
+</div>
+ </transition>
+
     <div class="absolute">
         <div class="absolute inset-0 justify-center">
             <div class="bg-shape1 bg-teal opcaity-50 bg-blur"></div>
@@ -192,12 +209,128 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
   font-family: "Urbanist", sans-serif;
 }
 
-body{
-    box-sizing: border-box;
-    /* display: flex;
+/* loader de la page */
+.loader {
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+  }
+  
+  .loader {
+    width: 100%;
+    height: 100%;
+    background: rgb(34,30,66);
+    background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%);
+    position: fixed;
+    display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; */
+    top: 0;
+    left: 0;
+  }
+  
+.fade-enter-active, .fade-leave-active { /*ils définisssent la transition pour l'opacité sur 0.5 seconde.*/
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {  /*ils définissent l'opacité initiale et finale à 0 pour la transition..*/
+  opacity: 0;
+}
+
+.glitch {
+  position: relative;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  letter-spacing: 5px;
+  z-index: 1;
+  animation: shift 1s ease-in-out infinite alternate;
+}
+
+.glitch:before,
+.glitch:after {
+  display: block;
+  content: attr(data-glitch);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.glitch:before {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #C61D6E;
+  z-index: -1;
+}
+
+.glitch:after {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: #7089C0;
+  z-index: -2;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes shift {
+  0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% {
+    transform: skewX(0deg);
+  }
+
+  41% {
+    transform: skewX(10deg);
+  }
+
+  42% {
+    transform: skewX(-10deg);
+  }
+
+  59% {
+    transform: skewX(40deg) skewY(10deg);
+  }
+
+  60% {
+    transform: skewX(-40deg) skewY(-10deg);
+  }
+
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+
+  70% {
+    transform: skewX(-50deg) skewY(-20deg);
+  }
+
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
+}
+
+body{
+    box-sizing: border-box;
     min-height: 100vh;
     background-color: #141114;
   background-image: linear-gradient(335deg, black 23px, transparent 23px),

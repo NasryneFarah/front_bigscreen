@@ -1,8 +1,8 @@
 <script setup>
-import UserSurvey from '../../components/UserSurvey.vue';
 import { ref } from 'vue';
 import Paginator from 'primevue/paginator';
-const answersIndex = ref(0);
+import UserSurvey from '../../components/UserSurvey.vue';
+const first = ref(0);
 </script>
 <script>
 export default {
@@ -79,17 +79,17 @@ export default {
       <!-- corps du dashboard -->
       <div class="main-content">
         <div class="header">Affichage de toutes les réponses du sondage <i class="fa-solid fa-table-list fa-bounce" ></i></div>
-         <!--  -->
-      <UserSurvey :answerByUuid="answersByUuid[answersIndex + 1]"/>
+         <!-- mon composant UserSurvey contenant les tableaux des différentes réponses -->
+      <UserSurvey :answerByUuid="answersByUuid[first + 1]"/>
+    
       <!-- pagination -->
-      <div class="pagination">
-      <Paginator v-model:answersIndex="answersIndex" :rows="1" :totalRecords="Object.values(answersByUuid).length"  />
+      <div class=" pagination">
+      <Paginator v-model:first="first" :rows="1" :totalRecords="Object.values(answersByUuid).length"/>
     </div>
       </div>
     </div>
     </div>
 </template>
-
 <style>
 /* importer police */
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
@@ -220,6 +220,27 @@ tbody tr:last-of-type{
 
 .pagination {
   cursor: pointer;
-  margin: 20px !important;
+  display: flex; /* Pour aligner les éléments en ligne */
+  justify-content: center; /* Centrer les éléments */
+  margin: 20px;
 }
+
+.pagination button {  
+  margin-right: 10px; 
+  border-radius: 50%; 
+  margin-right: 10px;
+  width: 40px;
+  height: 40px; 
+  background-color: #7089c0;
+  color: white;
+  cursor: pointer;
+  transition:  0.3s ease;
+}
+
+/* Pour éviter un espace après le dernier élément */
+.pagination button:last-child,
+.pagination span:last-child {
+  margin-right: 10px;
+}
+
 </style>

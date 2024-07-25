@@ -2,6 +2,7 @@
 export default {
   data() {
     return {
+      loading: true, //ça indique que mon loader est visible au début 
       index: 0, //L'index de la question actuelle commence à zéro
       email: "",
       errorMessage: "", //message d'erreur
@@ -33,6 +34,13 @@ export default {
   },
 
   methods: {
+    //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
+    hideLoaderWithDelay() { 
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000); // Le loader disparaîtra après 3 secondes
+    },
+
     //La fonction me permet de retourner la liste des questions
     async listQuestions() {
       const res = await (
@@ -192,8 +200,9 @@ export default {
 
   },
 
-  async mounted() {
-    // Mounted appelera les fonctions citées à chaque fois que la page se charge
+  async mounted() { // Mounted appelera les fonctions citées à chaque fois que la page se charge
+    this.hideLoaderWithDelay();
+
     await this.listQuestions();
 
     // Écouter les événements de touche lorsqu'un composant est monté
@@ -211,12 +220,19 @@ export default {
 };
 </script>
 <template>
+  <!-- loader de la page  -->
+ <!-- transition est un composant vue qui me permet d'appliquer des effets à mes éléments -->
+ <transition name="fade">
+    <div class="loader" v-if="loading" >
+   <div data-glitch="Bigscreen..." class="glitch">Bigscreen...</div>
+</div>
+ </transition>
   <div class="container" v-if="actualQuestion">
     <div class="card" @submit.prevent="finalize">
       <div class="box">
         <div class="content">
           <h3>{{ actualQuestion.title }}</h3>
-          <p>{{ actualQuestion.question_value }}</p>
+          <p class="question">{{ actualQuestion.question_value }}</p>
 
           <div v-if="actualQuestion.type === 'B'">
             <input
@@ -238,7 +254,7 @@ export default {
           </div>
 
           <!-- Afficher les propositions de réponses lorsque la question est de type A -->
-          <div class="typeA">
+          <div class="type-a">
             <div v-if="actualQuestion.type === 'A'">
               <ul>
                 <li
@@ -274,7 +290,7 @@ export default {
       votre investissement, nous vous préparons une application toujours plus
       facile à utiliser, seul ou en famille. Si vous désirez consulter vos
       réponses ultérieurement, vous pouvez consultez cette adresse:
-      <!-- <router-link to="/respones">{{ this.link }}</router-link> -->
+      
       <a :href="this.link" @click="redirectToResponsePage">{{ this.link }}</a>
     </h4>
   </div>
@@ -292,6 +308,126 @@ export default {
   list-style: none;
   box-sizing: border-box;
   font-family: "Urbanist", sans-serif;
+}
+
+/* loader de la page */
+.loader {
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+  }
+  
+  .loader {
+    width: 100%;
+    height: 100%;
+    background: rgb(34,30,66);
+    background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+  }
+  
+.fade-enter-active, .fade-leave-active { /*ils définisssent la transition pour l'opacité sur 0.5 seconde.*/
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {  /*ils définissent l'opacité initiale et finale à 0 pour la transition..*/
+  opacity: 0;
+}
+
+.glitch {
+  position: relative;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  letter-spacing: 5px;
+  z-index: 1;
+  animation: shift 1s ease-in-out infinite alternate;
+}
+
+.glitch:before,
+.glitch:after {
+  display: block;
+  content: attr(data-glitch);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.glitch:before {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #C61D6E;
+  z-index: -1;
+}
+
+.glitch:after {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: #7089C0;
+  z-index: -2;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes shift {
+  0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% {
+    transform: skewX(0deg);
+  }
+
+  41% {
+    transform: skewX(10deg);
+  }
+
+  42% {
+    transform: skewX(-10deg);
+  }
+
+  59% {
+    transform: skewX(40deg) skewY(10deg);
+  }
+
+  60% {
+    transform: skewX(-40deg) skewY(-10deg);
+  }
+
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+
+  70% {
+    transform: skewX(-50deg) skewY(-20deg);
+  }
+
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
 }
 
 body {
@@ -374,15 +510,23 @@ body .container .card .box .content input {
   border: none;
 }
 
-/* body .container .card .box .content .typeA{
+/* body .container .card .box .content .type-a{
 
 } */
 
-.content .btn {
-  display: flex;
-  position: relative;
-  top: 35px;
-  justify-content: space-evenly;
+.type-a ul {
+  width: fit-content;
+  margin: auto;
+  text-align: left !important;
+}
+
+.btn {
+  margin-top: 3rem;
+}
+
+.btn button {
+  display: inline-block;
+  margin: 0 25px;
 }
 
 .content button {
@@ -409,22 +553,16 @@ body .container .card .box .content input {
   border: none;
   border-radius: 2px;
   color: whitesmoke;
-  width: 300px;
-  height: 200px;
+  width: 500px;
+  height: 183px;
   text-align: center;
   padding: 10px;
-  /* position: fixed;
-  margin: auto; */
   margin: auto;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.8);
-  /* top: 45%; */
-  /* left: 68%; */
-  /* transform: translate(-50%, -50%); */
-  /* z-index: 1000; */
 }
 
 .success-notification.show {

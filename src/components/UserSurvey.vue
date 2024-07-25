@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
     answerByUuid: {
-      type: Array,
+      // type: Array,
     // type: Object,
     required: true
   }

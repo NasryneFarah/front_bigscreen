@@ -6,7 +6,8 @@ export default {
     };
   },
   methods: {
-    hideLoaderWithDelay() { //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
+    //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
+    hideLoaderWithDelay() { 
       setTimeout(() => {
         this.loading = false;
       }, 3000); // Le loader disparaîtra après 3 secondes
@@ -105,10 +106,10 @@ html{
     top: 0;
   }
   
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active, .fade-leave-active { /*ils définisssent la transition pour l'opacité sur 0.5 seconde.*/
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+.fade-enter, .fade-leave-to {  /*ils définissent l'opacité initiale et finale à 0 pour la transition..*/
   opacity: 0;
 }
 
