@@ -31,17 +31,17 @@ methods: {
         })
         ).json();
 
-        if (res.status == 'Utilisateur connecté') {
+        if (res.status == 200) {
             window.location.href = "/administration"; // Redirection vers la page "/dashboard" si la connexion est réussie
       } else {
         console.error(res.error);
       }
     },
-    // Mounted appelera les fonctions citées à chaque fois que la page se charge
-    async mounted() {
+},
+ // Mounted appelera les fonctions citées à chaque fois que la page se charge
+ mounted() {
       this.hideLoaderWithDelay();
     },
-}
 }
 </script>
 
@@ -80,23 +80,6 @@ methods: {
 @font-face {
     font-family: 'Lunar';
     src: url('public/assets/fonts/neuropolitical rg.otf');
-}
-
-input {
-  caret-color: red;
-}
-
-body {
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-  background: #ecf0f3;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  place-items: center;
-  overflow: hidden;
 }
 
 /* loader de la page */
@@ -217,6 +200,23 @@ body {
   71% {
     transform: skewX(10deg) skewY(-10deg);
   }
+}
+
+input {
+  caret-color: red;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ecf0f3;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  place-items: center;
+  overflow: hidden;
 }
 
 .container {

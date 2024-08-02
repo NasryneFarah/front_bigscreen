@@ -8,12 +8,20 @@ const first = ref(0);
 export default {
     data() {
         return {
+          loading: true, //ça indique que mon loader est visible au début 
           answersByUuid: {},
         }
     },
     computed: { 
     },
     methods: {
+      //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
+     hideLoaderWithDelay() { 
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000); // Le loader disparaîtra après 3 secondes
+    },
+
       async getAnswersByUuid(){
             var url = `${this.API_URL}/listes_responses`;
             const res = await(
@@ -39,12 +47,21 @@ export default {
         },
     },
     mounted() {
+      this.hideLoaderWithDelay();
       this.getAnswersByUuid();
     },   
 }
 </script>
 
 <template>
+  <!-- loader de la page  -->
+ <!-- transition est un composant vue qui me permet d'appliquer des effets à mes éléments -->
+ <transition name="fade">
+    <div class="loader" v-if="loading" >
+   <div data-glitch="Bigscreen..." class="glitch">Bigscreen...</div>
+</div>
+ </transition>
+
     <div>
         <!-- sidebar -->
     <div class="wrapper">
@@ -114,7 +131,127 @@ body {
   background-position: center center;
   background-size: cover;
   min-height: 100vh;
+}/* loader de la page */
+.loader {
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+  }
+  
+  .loader {
+    width: 100%;
+    height: 100%;
+    background: rgb(34,30,66);
+    background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+  }
+  
+.fade-enter-active, .fade-leave-active { /*ils définisssent la transition pour l'opacité sur 0.5 seconde.*/
+  transition: opacity 0.5s;
 }
+.fade-enter, .fade-leave-to {  /*ils définissent l'opacité initiale et finale à 0 pour la transition..*/
+  opacity: 0;
+}
+
+.glitch {
+  position: relative;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  letter-spacing: 5px;
+  z-index: 1;
+  animation: shift 1s ease-in-out infinite alternate;
+}
+
+.glitch:before,
+.glitch:after {
+  display: block;
+  content: attr(data-glitch);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.glitch:before {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #C61D6E;
+  z-index: -1;
+}
+
+.glitch:after {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: #7089C0;
+  z-index: -2;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes shift {
+  0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% {
+    transform: skewX(0deg);
+  }
+
+  41% {
+    transform: skewX(10deg);
+  }
+
+  42% {
+    transform: skewX(-10deg);
+  }
+
+  59% {
+    transform: skewX(40deg) skewY(10deg);
+  }
+
+  60% {
+    transform: skewX(-40deg) skewY(-10deg);
+  }
+
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+
+  70% {
+    transform: skewX(-50deg) skewY(-20deg);
+  }
+
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
+}
+
+
 
 .wrapper {
   display: flex;
