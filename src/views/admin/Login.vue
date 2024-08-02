@@ -57,7 +57,8 @@ methods: {
    <div class="container" >
     <form action="#" @submit.prevent="submit()">
   <div class="brand-logo">
-    <img src=" ../../public/assets/images/logo_bigscreen.png" width="30">
+    <!-- <img src=" ../../public/assets/images/logo_bigscreen.png" width="30"> -->
+    <img src=" ../../public/assets/images/bigscreen.svg" width="30">
   </div>
   <div class="brand-title">Bigscreen</div>
   <div class="inputs">
@@ -233,11 +234,13 @@ body {
 .brand-logo img{
     height: 100px;
     width: 100px;
+    background-color: #4d1ef7;
     background-size: cover;
     background-position: center center;
     object-fit: contain;
     margin: auto;
     border-radius: 50%;
+    padding: 2%;
     box-sizing: border-box;
     box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
 }
@@ -247,7 +250,7 @@ body {
   margin-top: 10px;
   font-weight: 900;
   font-size: 1.8rem;
-  color: #c61d6e;
+  color: #787E81;
   letter-spacing: 1px;
 }
 
@@ -293,7 +296,7 @@ button {
   font-family: 'Ysabeau Infant', sans-serif;
   color: white;
   margin-top: 20px;
-  background: #c61d6e;
+  background: #787E81;
   height: 40px;
   border-radius: 20px;
   cursor: pointer;

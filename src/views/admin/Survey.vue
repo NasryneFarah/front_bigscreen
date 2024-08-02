@@ -57,7 +57,7 @@ export default {
       <div class="sidebar">
 
         <router-link to="/administration">
-            <img src=" ../../public/assets/images/logo_bigscreen.png" width="150">
+            <img src=" ../../public/assets/images/bigscreen.svg" width="150">
         </router-link>
        
         <ul>
@@ -275,6 +275,7 @@ body {
   display: block;
   margin: auto;
   cursor: pointer;
+  margin-bottom: 35px;
 }
 
 .wrapper .sidebar ul li {

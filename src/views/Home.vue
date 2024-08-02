@@ -35,7 +35,8 @@ export default {
 
 <!-- le logo du site -->
     <div class="logo">
-        <img src="public/assets/images/logo_bigscreen.png" width="200">
+        <!-- <img src="public/assets/images/logo_bigscreen.png" width="200"> -->
+        <img src="public/assets/images/bigscreen.svg" width="200">
     </div>
 <!-- le texte d'arriver sur le site -->
     <div class="text">
@@ -57,7 +58,8 @@ export default {
    <main id="main">
     <section class="home">
         <div class="home-content">
-            <h1>Bigscreen</h1>
+            <!-- <h1>Bigscreen</h1> -->
+            <img src="public/assets/images/bigscreen.svg" width="500">
             <p>Merci de répondre à toutes les questions et de valider le formulaire en cliquant sur le bouton finaliser</p>
             <router-link to="/form">
                 <button class="btn">Participer au sondage</button>
@@ -228,9 +230,9 @@ html{
     font-family: 'Lunar';
     text-align: center;
     font-size: 3.6rem;
-    color: #fff;
+    color: #787E81;
     letter-spacing: 2px;
-    text-shadow: 3px 5px 2px #7089C0;
+    text-shadow: 3px 5px 2px #221E42;
     position: absolute;
     margin: auto;
     top: 50%;

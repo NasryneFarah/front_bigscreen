@@ -260,7 +260,7 @@ export default {
       ];
       var quality = this.answer_Quality;
       var data = questions.map((element) => quality[element]);
-      console.log(data);
+      // console.log(data);
 
       this. chartType(id, labels, data, colors, type); //j'appelle ma fonction chartType et je retourne les infos en paramètre
     },
@@ -311,7 +311,8 @@ export default {
     <!-- le menu à gauche -->
     <div class="sidebar">
       <router-link to="/administration">
-        <img src="public/assets/images/logo_bigscreen.png" width="150" />
+        <img src="public/assets/images/bigscreen.svg" width="150"/>
+        <!-- <img src="public/assets/images/logo_bigscreen.png" width="150" /> -->
       </router-link>
       <ul>
         <li>
@@ -562,6 +563,7 @@ body {
   display: block;
   margin: auto;
   cursor: pointer;
+  margin-bottom: 35px;
 }
 
 .wrapper .sidebar ul li {

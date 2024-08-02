@@ -108,7 +108,7 @@ export default {
         question_id: actualQuestion.id,
       };
       if (actualQuestion.id == 1) {
-        // ici j'essaye juste attribuer la valeur de mon user_email à mon value pour pas que le champs soit vide
+        // ici j'essaye juste d'attribuer la valeur de mon user_email à mon value pour pas que le champs soit vide
         userAnswersData.user_email = this.email;
         userAnswersData.value = this.email;
       }

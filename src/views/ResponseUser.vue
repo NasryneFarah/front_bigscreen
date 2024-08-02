@@ -171,7 +171,8 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
 
     <!-- texte de début sur la page -->
     <div class="welcome">
-        <span class="fast-flicker">big</span>scr<span class="flicker">e</span>en
+      <img src=" ../../public/assets/images/bigscreen.svg" width="350">
+        <!-- <span class="fast-flicker">big</span>scr<span class="flicker">e</span>en -->
     </div>
 
     <div class="paragraphe">
@@ -342,6 +343,15 @@ body{
 }
 
 .welcome{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  margin-top: 5%;
+  margin-bottom: 3%;
+}
+
+/* .welcome{
     position: relative;
   display: flex;
   justify-content: center;
@@ -535,7 +545,7 @@ body{
   to {
     opacity: 1;
   }
-}
+} */
 
 .paragraphe p{
     color: white;
