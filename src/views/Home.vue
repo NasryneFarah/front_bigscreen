@@ -230,9 +230,10 @@ html{
     font-family: 'Lunar';
     text-align: center;
     font-size: 3.6rem;
-    color: #787E81;
+    color: rgba(77,30,247,1);
+    /* color: #787E81; */
     letter-spacing: 2px;
-    text-shadow: 3px 5px 2px #221E42;
+    text-shadow: 3px 5px 2px #787E81;
     position: absolute;
     margin: auto;
     top: 50%;

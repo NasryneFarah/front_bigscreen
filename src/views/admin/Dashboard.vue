@@ -135,7 +135,7 @@ export default {
                         stepSize: 0.2, // Taille de chaque pas pour les ticks
                     },
                     pointLabels: {
-                        color: 'rgb(34, 30, 66)', // Couleur des labels
+                        color: 'rgb(225, 225, 225)', // Couleur des labels
                         font: {
                             size: 13,
                             family: 'Urbanist, sans-serif', // Police de caractères des labels
@@ -411,12 +411,14 @@ export default {
 }
 
 body {
-  background: rgb(112, 137, 192);
+background: rgb(34,30,66);
+background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
+  /* background: rgb(112, 137, 192);
   background: linear-gradient(
     69deg,
     rgba(112, 137, 192, 1) 22%,
     rgba(198, 29, 110, 1) 100%
-  );
+  ); */
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -555,7 +557,7 @@ body {
   position: fixed;
   width: 200px;
   height: 100%;
-  background: #221e42;
+  background: #000;
   padding: 12% 0;
 }
 
@@ -594,12 +596,11 @@ body {
 
 .wrapper .main-content .header {
   padding: 20px;
-  border-bottom: 1.5px solid #221e42;
-  border-top: 1px solid #7089c0;
-  background: rgba(245, 245, 245, 0.334);
+  border: none;
+  background-color: #000;
   text-align: center;
   font-size: 2rem;
-  color: #221e42;
+  color: #fff;
   font-weight: 700;
   text-transform: capitalize;
 }
@@ -717,7 +718,8 @@ body {
 .title h1{
   margin-top: 2%;
   margin-left: 5%;
-  color: #221e42;
+  /* color: #221e42; */
+  color: #7089c0;
   position: relative;
   padding-left: 20px;
   text-decoration:underline;

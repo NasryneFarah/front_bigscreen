@@ -125,12 +125,14 @@ export default {
 }
 
 body {
-  background: rgb(112, 137, 192);
+  background: rgb(34,30,66);
+background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
+  /* background: rgb(112, 137, 192);
   background: linear-gradient(
     69deg,
     rgba(112, 137, 192, 1) 22%,
     rgba(198, 29, 110, 1) 100%
-  );
+  ); */
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -266,8 +268,7 @@ body {
   position: fixed;
   width: 200px;
   height: 100%;
-  background: #221e42;
-  /* padding: 55px 0; */
+  background: #000;
   padding: 12% 0;
 }
 
@@ -306,12 +307,10 @@ body {
 
 .wrapper .main-content .header {
   padding: 20px;
-  border-bottom: 1px solid #7089c0;
-  border-top: 1px solid #7089c0;
-  background: rgba(245, 245, 245, 0.334);
+  background-color: #000;
   text-align: center;
   font-size: 2rem;
-  color: #221e42;
+  color: #fff;
   font-weight: 700;
   text-transform: capitalize;
 }

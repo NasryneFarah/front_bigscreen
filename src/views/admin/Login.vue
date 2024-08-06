@@ -5,6 +5,7 @@ export default{
         loading: true, //ça indique que mon loader est visible au début 
         email:"",
         password:"",
+        errorMessage: "", //message d'erreur
     }
 }, 
 
@@ -34,8 +35,15 @@ methods: {
         if (res.status == 200) {
             window.location.href = "/administration"; // Redirection vers la page "/dashboard" si la connexion est réussie
       } else {
-        console.error(res.error);
+        this.errorMessage = "Email ou mot de passe incorrect"; // Affiche le message d'erreur
       }
+    },
+
+    // Méthode pour réinitialiser les champs de saisie et le message d'erreur
+    resetError() {
+      this.errorMessage = "";
+      this.email = "";
+      this.password = "";
     },
 },
  // Mounted appelera les fonctions citées à chaque fois que la page se charge
@@ -61,6 +69,40 @@ methods: {
     <img src=" ../../public/assets/images/bigscreen.svg" width="30">
   </div>
   <div class="brand-title">Bigscreen</div>
+
+  <!--Message d'erreur si l'email ou le mot de passe sont incorrecte -->
+<transition name="fade">
+    <div v-if="errorMessage" class="error">
+  <div class="error__icon">
+    <svg
+      fill="none"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+        fill="#393a37"
+      ></path>
+    </svg>
+  </div>
+  <div class="error__title">{{ errorMessage }}</div>
+  <div class="error__close" @click="resetError">
+    <svg
+      height="20"
+      viewBox="0 0 20 20"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+        fill="#393a37"
+      ></path>
+    </svg>
+  </div>
+</div>
+  </transition>
   <div class="inputs">
     <label>Email</label>
     <input type="email" v-model="email" required placeholder="exemple@test.com" />
@@ -68,11 +110,9 @@ methods: {
     <input type="password" v-model="password" required  placeholder="Minimum 6 caractères" />
     <button type="submit">Connexion</button>
   </div>
+
 </form>
 </div>
-
-<!-- pop up -->
-
 </template>
 
 <style>
@@ -232,17 +272,17 @@ body {
 }
 
 .brand-logo img{
-    height: 100px;
-    width: 100px;
-    background-color: #4d1ef7;
-    background-size: cover;
-    background-position: center center;
-    object-fit: contain;
-    margin: auto;
-    border-radius: 50%;
-    padding: 2%;
-    box-sizing: border-box;
-    box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
+  height: 100px;
+  width: 100px;
+  background-color: #4d1ef7;
+  background-size: cover;
+  background-position: center center;
+  object-fit: contain;
+  margin: auto;
+  border-radius: 50%;
+  padding: 2%;
+  box-sizing: border-box;
+  box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
 }
 
 .brand-title {
@@ -328,6 +368,49 @@ h1 {
   left: 0;
 }
 
-/* pop up */
+.error {
+  width: 281px;
+  margin-top: 6%;
+  padding: 10px;
+  /* width: 320px;
+  padding: 12px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background: linear-gradient(to right, #f45c43, #eb3349);
+  box-shadow: 0 0px 10px #de1c3280;
+}
+
+.error__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+  filter: drop-shadow(2px 1px 2px rgb(0 0 0 / 0.4));
+}
+
+.error__icon path {
+  fill: #fff;
+}
+
+.error__title {
+  font-weight: 500;
+  font-size: 15px;
+  color: #fff;
+}
+
+.error__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+  filter: drop-shadow(2px 1px 2px rgb(0 0 0 / 0.4));
+}
+
+.error__close path {
+  fill: #fff;
+}
+
 
 </style>
