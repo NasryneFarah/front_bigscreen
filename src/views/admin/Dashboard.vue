@@ -5,7 +5,7 @@ export default {
       loading: true, //ça indique que mon loader est visible au début 
       responses6: [], //pour récupérer le nombre de réponses de la question 6
       responses7: [], //pour récupérer le nombre de réponses de la question 7
-      responses8: [], //pour récupérer le nombre de réponses de la question 8
+      responses10: [], //pour récupérer le nombre de réponses de la question 8
      answer_Quality:{} //pour récupérer les taux des réponses des questions 11 à 15
     };
   },
@@ -34,7 +34,7 @@ export default {
       if (res.status == 200) {
         this.responses6 = res.question6;
         this.responses7 = res.question7;
-        this.responses8 = res.question8;
+        this.responses10 = res.question10;
         this.answer_Quality= res.averages;
         //les fonctions qui afficheront mes graphiques
         this.graphOne();
@@ -212,12 +212,11 @@ export default {
     graphThree(){
         var id =  "graphThree"; 
         var labels = [
-        "Occulus Quest",
-        "Occulus Go",
-        "HTC Vive Pro",
-        "PSVR", 
-        "Autre", 
-        "Aucun", 
+        "regarder la TV en direct",
+        "regarder des films",
+        "travailler",
+        "jouer en solo", 
+        "jouer en équipe", 
       ];
         var data = [];
         var colors = [
@@ -226,13 +225,12 @@ export default {
         "rgb(243, 214, 211)",
         "rgb(142, 131, 169)",
         "rgb(202, 188, 203)",
-        "rgb(76, 83, 114)",
       ];
       var type = "pie";
       
-      var questions8 = this.responses8; //je récupère les données de réponses de la question
+      var questions10 = this.responses10; //je récupère les données de réponses de la question
 
-      var data = labels.map((label) => questions8[label] || 0); //je récupéres les valeurs de chaque labels
+      var data = labels.map((label) => questions10[label] || 0); //je récupéres les valeurs de chaque labels
 
       this. chartType(id, labels, data, colors, type,); //j'appelle ma fonction chartType et je retourne les infos en paramètre
     },
@@ -379,7 +377,7 @@ export default {
           <!-- chart 3 -->
       <div class="chart">
         <div class="title">
-          <h1>Statisque de la question 8</h1>
+          <h1>Statisque de la question 10</h1>
           <canvas id="graphThree" width="500" height="500"></canvas>
         </div>
       </div>
