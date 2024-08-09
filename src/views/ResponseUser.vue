@@ -78,31 +78,6 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
       }
     },
 
-    // / un évènement pour pouvoir passer aux questions suivantes ou revenir grâce au touche du clavier
-    handleKeyPress(event) {
-  if (event.key === "ArrowRight") {
-    // Aller à la question suivante lorsque la touche droite est enfoncée
-    this.nextQuestion();
-  } else if (event.key === "ArrowLeft") {
-    // Aller à la question précédente lorsque la touche gauche est enfoncée
-    this.previousQuestion();
-  }
-},
-    // méthode pour passer à la question suivante
-    nextQuestion() {
-    if (this.index < this.questions.length - 1) {
-            this.index++;
-        }
-    },
-
-    // méthode pour revenir à la question précédente  
-    previousQuestion() {
-      if (this.index > 0) {
-        //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
-        this.index--;
-      }
-    },
-
     //la fonction me permet d'afficher les réponses en fonction de l'uuid de l'utilisateur
   async getResponses() {
     try {
@@ -130,22 +105,8 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
 
   async mounted() { // Mounted appelera les fonctions citées à chaque fois que la page se charge
     this.hideLoaderWithDelay();
-    
     await this.getQuestions();
     await this.getResponses();
-
-    // Écouter les événements de touche lorsqu'un composant est monté
-    window.addEventListener("keydown", this.handleKeyPress);
-
-    // Écouter les événements de touche pour la touche Entrée
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        // Enregistrer la réponse de l'utilisateur avant de finaliser
-        this.saveUserResponse();
-        this.finalize();
-      }
-    });
-
     //l'heure et la date du jour
     this.getCurrentDateTime();
   },
@@ -172,7 +133,6 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
     <!-- texte de début sur la page -->
     <div class="welcome">
       <img src=" ../../public/assets/images/bigscreen.svg" width="350">
-        <!-- <span class="fast-flicker">big</span>scr<span class="flicker">e</span>en -->
     </div>
 
     <div class="paragraphe">
@@ -182,15 +142,12 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
 
     <!-- les cards affichant les réponses -->
     <div class="card-container">
-        <div class="card" v-if="currentParticipantData">
-            <h3>{{ currentParticipantData.question.title }}</h3>
+      <!-- j'utilise v-for pour parcourir toutes les questions et réponses. Cela me permet d'afficher chaque question et réponse dans une carte individuelle. -->
+        <div class="card" v-for="(question, index) in questions" :key="index">
+            <h3>{{ question.title }}</h3>
             <div class="card-content">
-                <h4>{{ currentParticipantData.question.question_value }}</h4>
-                <div class="response">{{currentParticipantData.response.value}}</div>
-            </div>
-            <div class="btn">
-                <button @click="previousQuestion">Précédent</button>
-                <button @click="nextQuestion">Suivant</button>
+                <h4>{{ question.question_value }}</h4>
+                <div class="response">{{ responses[index]?.value }}</div>
             </div>
         </div>
     </div>
@@ -347,205 +304,9 @@ body{
   justify-content: center;
   align-items: center;
   align-items: center;
-  margin-top: 5%;
-  margin-bottom: 3%;
+  margin-top: 3%;
+  margin-bottom: 1%;
 }
-
-/* .welcome{
-    position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5%;
-  width: 50%;
-  height: 50%;
-  background-image: radial-gradient(
-    ellipse 50% 35% at 50% 50%,
-    #6b1839,
-    transparent
-  );
-  transform: translate(-50%, -50%);
-  letter-spacing: 2;
-  left: 50%;
-  margin-bottom: -2%;
-  font-family: "Ysabeau";
-  text-transform: uppercase;
-  font-size: 6em;
-  color: #ffe6ff;
-  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
-    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
-    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
-  animation: shine 2s forwards, flicker 3s infinite;
-}
-
-@keyframes blink {
-  0%,
-  22%,
-  36%,
-  75% {
-    color: #ffe6ff;
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
-      -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
-      0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
-  }
-  28%,
-  33% {
-    color: #ff65bd;
-    text-shadow: none;
-  }
-  82%,
-  97% {
-    color: #ff2483;
-    text-shadow: none;
-  }
-}
-
-.flicker {
-  animation: shine 2s forwards, blink 3s 2s infinite;
-}
-
-.fast-flicker {
-  animation: shine 2s forwards, blink 10s 1s infinite;
-}
-
-@keyframes shine {
-  0% {
-    color: #6b1839;
-    text-shadow: none;
-  }
-  100% {
-    color: #ffe6ff;
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
-      -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
-      0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
-  }
-}
-
-@keyframes flicker {
-  from {
-    opacity: 1;
-  }
-
-  4% {
-    opacity: 0.9;
-  }
-
-  6% {
-    opacity: 0.85;
-  }
-
-  8% {
-    opacity: 0.95;
-  }
-
-  10% {
-    opacity: 0.9;
-  }
-
-  11% {
-    opacity: 0.922;
-  }
-
-  12% {
-    opacity: 0.9;
-  }
-
-  14% {
-    opacity: 0.95;
-  }
-
-  16% {
-    opacity: 0.98;
-  }
-
-  17% {
-    opacity: 0.9;
-  }
-
-  19% {
-    opacity: 0.93;
-  }
-
-  20% {
-    opacity: 0.99;
-  }
-
-  24% {
-    opacity: 1;
-  }
-
-  26% {
-    opacity: 0.94;
-  }
-
-  28% {
-    opacity: 0.98;
-  }
-
-  37% {
-    opacity: 0.93;
-  }
-
-  38% {
-    opacity: 0.5;
-  }
-
-  39% {
-    opacity: 0.96;
-  }
-
-  42% {
-    opacity: 1;
-  }
-
-  44% {
-    opacity: 0.97;
-  }
-
-  46% {
-    opacity: 0.94;
-  }
-
-  56% {
-    opacity: 0.9;
-  }
-
-  58% {
-    opacity: 0.9;
-  }
-
-  60% {
-    opacity: 0.99;
-  }
-
-  68% {
-    opacity: 1;
-  }
-
-  70% {
-    opacity: 0.9;
-  }
-
-  72% {
-    opacity: 0.95;
-  }
-
-  93% {
-    opacity: 0.93;
-  }
-
-  95% {
-    opacity: 0.95;
-  }
-
-  97% {
-    opacity: 0.93;
-  }
-
-  to {
-    opacity: 1;
-  }
-} */
 
 .paragraphe p{
     color: white;
@@ -570,6 +331,7 @@ body{
     inset: 0;
     display: inline-flex;
     flex-direction: row;
+    z-index: -10;
 }
 
 .justify-center{
@@ -630,20 +392,20 @@ body{
 
 /* card des réponses  */
 .card-container{
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacement entre les cartes */
+    margin-top: 20px; /* Espace au-dessus des cartes */
 }
 
 .card{
     width: 325px;
-    height: 295px;
+    height: 200px;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.3);
-    /* margin: 20px; */
     display: flex;
     justify-content: center;
     align-items: center;

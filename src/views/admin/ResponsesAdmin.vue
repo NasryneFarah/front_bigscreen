@@ -308,7 +308,7 @@ body {
   font-size: 2rem;
   color: #fff;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 /* tableau */
