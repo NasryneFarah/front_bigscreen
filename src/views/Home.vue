@@ -106,6 +106,7 @@ html{
     justify-content: center;
     align-items: center;
     top: 0;
+    left: 0;
   }
   
 .fade-enter-active, .fade-leave-active { /*ils définisssent la transition pour l'opacité sur 0.5 seconde.*/

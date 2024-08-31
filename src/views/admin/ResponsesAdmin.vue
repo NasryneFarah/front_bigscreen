@@ -4,6 +4,7 @@ import Paginator from 'primevue/paginator';
 import UserSurvey from '../../components/UserSurvey.vue';
 const first = ref(0);
 </script>
+
 <script>
 export default {
     data() {
@@ -12,8 +13,26 @@ export default {
           answersByUuid: {},
         }
     },
-    computed: { 
+
+    computed: {
+      async getQuestions(){
+            var url = `${this.API_URL}/listes_questions`;
+            const res = await(
+                await fetch(url,{
+                   method: "get",
+                   headers: {
+                    "Content-Type": "application/json", //je précise le type du contenu
+                   } 
+                })
+            ).json();
+
+            // je fais une condition
+            if (res.status == 200) {
+                this.questions = res.data;
+            }
+        }
     },
+   
     methods: {
       //cette fonction me permet de changer l'état de loading après 3 secondes afin qu'il disparaisse
      hideLoaderWithDelay() { 
@@ -45,7 +64,8 @@ export default {
                 }, {});
             }
         },
-    },
+    },  
+     
     mounted() {
       this.hideLoaderWithDelay();
       this.getAnswersByUuid();
@@ -95,7 +115,9 @@ export default {
       </div>
       <!-- corps du dashboard -->
       <div class="main-content">
-        <div class="header">Affichage de toutes les réponses du sondage <i class="fa-solid fa-table-list fa-bounce" ></i></div>
+        <div class="header">Affichage de toutes les réponses de l'utilisateur : 
+          {{ firstAnswer }}
+        </div>
          <!-- mon composant UserSurvey contenant les tableaux des différentes réponses -->
       <UserSurvey :answerByUuid="answersByUuid[first + 1]"/>
     
@@ -123,12 +145,6 @@ export default {
 body {
   background: rgb(34,30,66);
   background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
-  /* background: rgb(112, 137, 192);
-  background: linear-gradient(
-    69deg,
-    rgba(112, 137, 192, 1) 22%,
-    rgba(198, 29, 110, 1) 100%
-  ); */
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -284,7 +300,7 @@ body {
 .wrapper .sidebar ul li a {
     color: #fff;
     text-shadow: 0 0 10px #7089C0;
-    font-size: 20px;
+    font-size: 18px;
     display: block;
 }
 
@@ -308,14 +324,12 @@ body {
   font-size: 2rem;
   color: #fff;
   font-weight: 700;
-  /* text-transform: capitalize; */
 }
 
 /* tableau */
 .tableau{
     border-collapse: collapse;
-    min-width: 500px;
-    /* border: 2px solid #343777; */
+    max-width: 95%;
     border: 1px solid rgba(245, 245, 245, 0.469);
     width: auto;
     box-shadow: 0 5px 50px rgba(0, 0, 0, 0.15);
@@ -337,6 +351,7 @@ th, td{
 td{
     color: #fff;
     text-shadow: 0 3px 15px #7089C0;
+    font-size: 15px;
 }
 
 tbody tr, td, th{
@@ -357,13 +372,13 @@ tbody tr:last-of-type{
 
 .pagination {
   cursor: pointer;
-  display: flex; /* Pour aligner les éléments en ligne */
-  justify-content: center; /* Centrer les éléments */
+  display: flex; 
+  justify-content: center;
   margin: 20px;
 }
 
 .pagination button {  
-  margin-right: 10px; 
+  margin-right: 15px;
   border-radius: 50%; 
   margin-right: 10px;
   width: 40px;

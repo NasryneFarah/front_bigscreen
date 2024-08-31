@@ -33,7 +33,11 @@ methods: {
         ).json();
 
         if (res.status == 200) {
-            window.location.href = "/administration"; // Redirection vers la page "/dashboard" si la connexion est réussie
+          // Stockez si l'utilisateur est admin dans sessionStorage
+            sessionStorage.setItem('isAdmin', res.isAdmin);
+
+            // Redirection vers la page "/dashboard" si la connexion est réussie
+            window.location.href = "/administration"; 
       } else {
         this.errorMessage = "Email ou mot de passe incorrect"; // Affiche le message d'erreur
       }
@@ -68,8 +72,7 @@ methods: {
     <!-- <img src=" ../../public/assets/images/logo_bigscreen.png" width="30"> -->
     <img src=" ../../public/assets/images/bigscreen.svg" width="30">
   </div>
-  <div class="brand-title">Bigscreen</div>
-
+  
   <!--Message d'erreur si l'email ou le mot de passe sont incorrecte -->
 <transition name="fade">
     <div v-if="errorMessage" class="error">
@@ -118,10 +121,6 @@ methods: {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@1;100;200;300;400;500;600;700;800;900;1000&display=swap');
 
-@font-face {
-    font-family: 'Lunar';
-    src: url('public/assets/fonts/neuropolitical rg.otf');
-}
 
 /* loader de la page */
 .loader {

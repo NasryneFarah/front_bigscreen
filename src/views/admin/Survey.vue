@@ -126,13 +126,7 @@ export default {
 
 body {
   background: rgb(34,30,66);
-background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
-  /* background: rgb(112, 137, 192);
-  background: linear-gradient(
-    69deg,
-    rgba(112, 137, 192, 1) 22%,
-    rgba(198, 29, 110, 1) 100%
-  ); */
+  background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -288,7 +282,7 @@ background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
 .wrapper .sidebar ul li a {
     color: #fff;
     text-shadow: 0 0 10px #7089C0;
-    font-size: 20px;
+    font-size: 18px;
     display: block;
 }
 
@@ -318,8 +312,7 @@ background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
 /* tableau */
 .tableau{
     border-collapse: collapse;
-    min-width: 500px;
-    /* border: 2px solid #343777; */
+    max-width: 95%;
     border: 1px solid rgba(245, 245, 245, 0.469);
     width: auto;
     box-shadow: 0 5px 50px rgba(0, 0, 0, 0.15);
@@ -330,7 +323,7 @@ background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
 thead tr{
     background-color: #343777;
     color: #7089c0;
-    text-align: left;
+    text-align: center;
     font-size: 20px;
 }
 
@@ -341,6 +334,7 @@ th, td{
 td{
     color: #fff;
     text-shadow: 0 3px 15px #7089C0;
+    font-size: 15px;
 }
 
 tbody tr, td, th{

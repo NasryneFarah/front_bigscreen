@@ -276,6 +276,9 @@ export default {
                 })
             ).json();
       if (res.status == 200) {
+        // Supprimez la session isAdmin
+      sessionStorage.removeItem('isAdmin');
+      
         // Redirigez vers la page d'accueil
         window.location.href = "/";
       } else {
@@ -411,12 +414,6 @@ export default {
 body {
 background: rgb(34,30,66);
 background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
-  /* background: rgb(112, 137, 192);
-  background: linear-gradient(
-    69deg,
-    rgba(112, 137, 192, 1) 22%,
-    rgba(198, 29, 110, 1) 100%
-  ); */
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -575,7 +572,7 @@ background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
 .wrapper .sidebar ul li a {
   color: #fff;
   text-shadow: 0 0 10px #7089c0;
-  font-size: 20px;
+  font-size: 18px;
   display: block;
 }
 
@@ -679,16 +676,6 @@ background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
   transform: translate(2px, 2px);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
 }
-
-
-/* .logout{
-  padding: 1.25em 1.5em;
-  border: 2px solid #C61D6E!important;
-  border-radius: 0.75em;
-  font-weight: 700;
-  text-transform: uppercase;
-  transform-style: preserve-3d;
-} */
 
 /* Organiser les graphiques en lignes */
 .chart-row {

@@ -20,13 +20,33 @@ const router = createRouter({
     {
       path: '/administration',
       name: 'dashboard',
-      component:() => import('../views/admin/Dashboard.vue') //la page d'accueil de l'admin
+      component:() => import('../views/admin/Dashboard.vue'), //la page d'accueil de l'admin
+      //sécurité de l'administration
+      beforeEnter: (to, from, next) => {
+        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    
+        if (isAdmin) { // si l'administration est connecté je le laisse poursuivre
+          next();
+        } else { //sinon je le redirige sur la page de connexion
+          next('/administration/login');
+        }
+      }
     },
     //la route permettant à l'admin d'accéder à la liste des questions
     {
       path: '/administration/questions',
       name: 'survey',
-      component:() => import('../views/admin/Survey.vue') //la page des questions sur le dashboard de l'admin
+      component:() => import('../views/admin/Survey.vue'), //la page des questions sur le dashboard de l'admin
+      //sécurité de l'administration
+      beforeEnter: (to, from, next) => {
+        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    
+        if (isAdmin) { // si l'administration est connecté je le laisse poursuivre
+          next();
+        } else { //sinon je le redirige sur la page de connexion
+          next('/administration/login');
+        }
+      }
     },
     //la route permettant aux utilisateurs de répondre aux questions
     {
@@ -46,6 +66,16 @@ const router = createRouter({
       path: '/administration/responses',
       name: 'ResponsesAdmin',
       component:() => import('../views/admin/ResponsesAdmin.vue'),
+      //sécurité de l'administration
+      beforeEnter: (to, from, next) => {
+        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    
+        if (isAdmin) { // si l'administration est connecté je le laisse poursuivre
+          next();
+        } else { //sinon je le redirige sur la page de connexion
+          next('/administration/login');
+        }
+      }
     },
   ]
 })
