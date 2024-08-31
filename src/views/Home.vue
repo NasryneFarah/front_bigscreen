@@ -2,7 +2,8 @@
 export default {
   data() {
     return {
-      loading: true //ça indique que mon loader est visible au début 
+      loading: true, //ça indique que mon loader est visible au début 
+      textVisible: false // Indique que le texte n'est pas encore visible
     };
   },
   methods: {
@@ -10,7 +11,13 @@ export default {
     hideLoaderWithDelay() { 
       setTimeout(() => {
         this.loading = false;
+        this.showTextWithDelay();
       }, 3000); // Le loader disparaîtra après 3 secondes
+    },
+    showTextWithDelay() {
+      setTimeout(() => {
+        this.textVisible = true;
+      }, 500); // Le texte apparaît 0.5 seconde après la disparition du loader
     }
   },
   mounted() {
@@ -39,8 +46,8 @@ export default {
         <img src="public/assets/images/bigscreen.svg" width="200">
     </div>
 <!-- le texte d'arriver sur le site -->
-    <div class="text">
-        <h1>
+    <div class="text" v-if="textVisible">
+        <h1 class="animate__animated animate__fadeInDown animate__delay-1s">
            Bienvenue à <br> Bigscreen
         </h1>
     </div>
