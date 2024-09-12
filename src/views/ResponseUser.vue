@@ -17,7 +17,6 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
             responses: [],//listes des réponses
             currentDate: '', //la date du jour
             currentTime: '', //l'heure du jour 
-            isEditing: false, //modifier les réponses
         }
     },
 
@@ -103,49 +102,6 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
   }
   },
 
-  // Méthode pour sauvegarder les réponses
-  async updateResponses() {
-      try {
-        const res = await fetch(`${this.API_URL}/answers/${this.uuid}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userResponses: this.responses }),
-        });
-
-        const data = await res.json();
-        if (data.status === 200) {
-          swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Réponses mise à jour avec succès",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        // Recharger la page après un délai
-        setTimeout(() => {
-                location.reload(); // Recharge la page
-            }, 1500); // Délai de 1,5 seconde avant le rechargement
-
-        } else {
-          swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Erreur lors de la mise à jour des réponses.",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        }
-      } catch (error) {
-        console.error('Erreur lors de la requête API', error);
-      }
-    },
-
-    // Méthode pour activer le mode édition
-    editResponses() {
-      this.isEditing = true;
-    },
   },
 
   async mounted() { // Mounted appelera les fonctions citées à chaque fois que la page se charge
@@ -191,17 +147,10 @@ export default defineComponent({ //ici j'exporte par défaut un objet qui repré
         <div class="card" v-for="(question, index) in questions" :key="index">
             <h3>{{ question.title }}</h3>
             <div class="card-content">
-                <h4>{{ question.question_value }}</h4>
-                <div v-if="isEditing" class="response">
-                  <input v-model="responses[index].value" type="text" />
-                </div>
-                <div  v-els class="response">
+                <h4>{{ question.question_value }}</h4>  
+                <div class="response">
                   {{ responses[index]?.value }}
                 </div>
-            </div>
-            <div class="actions">
-              <button v-if="isEditing" @click="updateResponses">Sauvegarder</button>
-              <button v-else @click="editResponses">Modifier</button>
             </div>
         </div>
     </div>
@@ -456,7 +405,7 @@ body{
 
 .card{
     width: 325px;
-    height: 265px;
+    height: 200px;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
@@ -496,22 +445,6 @@ body{
   font-size: 18px;
   font-weight: bold;
 }
-
-.response input {
-    width: 100%; 
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    font-size: 16px; 
-    transition: border-color 0.3s;
-}
-
-.response input:focus {
-    border-color: #007bff; 
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
-}
-
 
 .card button{
     cursor: pointer;
