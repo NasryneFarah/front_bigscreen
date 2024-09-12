@@ -250,7 +250,9 @@ body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background: #ecf0f3;
+  /* background: #ecf0f3; */
+  background: rgb(34,30,66);
+background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
   display: flex;
   align-items: center;
   text-align: center;
@@ -267,7 +269,7 @@ body {
   padding: 40px;
   box-sizing: border-box;
   background: #ecf0f3;
-  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px rgba(255, 255, 255, 0.303);
 }
 
 .brand-logo img{

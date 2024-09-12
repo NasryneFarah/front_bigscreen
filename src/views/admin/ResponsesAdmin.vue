@@ -115,8 +115,7 @@ export default {
       </div>
       <!-- corps du dashboard -->
       <div class="main-content">
-        <div class="header">Affichage de toutes les réponses de l'utilisateur : 
-          {{ firstAnswer }}
+        <div class="header">Affichage de toutes les réponses de l'utilisateur
         </div>
          <!-- mon composant UserSurvey contenant les tableaux des différentes réponses -->
       <UserSurvey :answerByUuid="answersByUuid[first + 1]"/>

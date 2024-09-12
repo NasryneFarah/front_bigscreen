@@ -454,13 +454,15 @@ body {
   align-items: center;
   flex-wrap: wrap;
   min-height: 100vh;
-  background: rgb(34, 30, 66);
+  background: rgb(34,30,66);
+background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
+  /* background: rgb(34, 30, 66);
   background: linear-gradient(
     52deg,
     rgba(34, 30, 66, 1) 10%,
     rgba(52, 55, 119, 1) 56%,
     rgba(175, 37, 153, 1) 90%
-  );
+  ); */
 }
 
 body .container {
@@ -477,8 +479,8 @@ body .container .card {
   min-width: 520px;
   height: 440px;
   box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
-    inset -5px -5px 15px rgba(255, 255, 255, 0.1),
-    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1);
+    inset -5px -5px 15px rgba(255, 255, 255, 0.3),
+    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.3);
   border-radius: 15px;
   margin: 10px;
   transition: 0.5s;

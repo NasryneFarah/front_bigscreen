@@ -280,7 +280,7 @@ export default {
       sessionStorage.removeItem('isAdmin');
       
         // Redirigez vers la page d'accueil
-        window.location.href = "/";
+        window.location.href = "/administration/login";
       } else {
         alert('Erreur lors de la déconnexion');
       }

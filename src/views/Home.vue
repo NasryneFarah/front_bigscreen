@@ -266,7 +266,7 @@ html{
     border-right: 2px solid #7089C0;
     margin: -10px;
     transform: rotate(45deg);
-    animation: animate 2s infinite;
+    animation: animate 7s infinite;
 }
 
 /* animation des arrows */
@@ -306,7 +306,9 @@ main{
     width: 100%;
     height: 100vh;
     background: rgb(34,30,66);
-    background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%);
+    background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
+    /* background: rgb(34,30,66);
+    background: linear-gradient(335deg, rgba(34,30,66,1) 25%, rgba(198,29,110,1) 90%); */
     background-size: 400% 400%;
     animation: animation 10s ease infinite;
 }
@@ -366,15 +368,17 @@ main{
     display: block;
     font-size: 30px;
     font-weight: 400;
-    color: #7089C0;
+    /* color: #7089C0; */
+    color: whitesmoke;
     padding: 25px 80px;
-    background: #221E42;
+    /* background: #221E42; */
+    background: linear-gradient(to right, #7089c0, #c61d6e);
     outline: none;
     border: none;
     cursor: pointer;
     border-radius: 20px;
     position: relative;
-    box-shadow: 0 6px #3A3F87;
+    box-shadow: 0 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn:active {
@@ -382,5 +386,100 @@ main{
     top: 6px;
 }
 
+/*responsivité*/
 
+@media (min-width: 768px) {
+    .loader {
+        font-size: 30px;
+    }
+    
+    .glitch {
+        font-size: 35px;
+    }
+
+    .text {
+        font-size: 2.5rem; 
+    }
+
+    .home-content h1 {
+        font-size: 3rem; 
+    }
+
+    .home-content p {
+        font-size: 1rem;
+    }
+
+    .home-content .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .box {
+        top: 95%;
+    }
+}
+
+@media (min-width: 600px) {
+    /* Logo */
+    .logo img {
+        width: 200px;
+    }
+
+    /* Texte */
+    .text {
+        font-size: 3rem; /* Augmente la taille du texte pour écrans moyens */
+    }
+
+    /* Section principale */
+    .home-content h1 {
+        font-size: 48px; /* Ajuste la taille pour écrans moyens */
+    }
+
+    .home-content p {
+        font-size: 20px; /* Augmente la taille du texte */
+    }
+
+    .home-content .btn {
+        font-size: 25px;
+        padding: 20px 60px; /* Réduit le padding */
+    }
+}
+
+@media (min-width: 1024px) {
+    /* Vidéo */
+    #bg_video {
+        height: 100vh;
+    }
+
+    /* Logo */
+    .logo img {
+        width: 250px;
+        margin-left: 30px;
+        margin-top: 15px;
+    }
+
+    /* Texte */
+    .text {
+        font-size: 3.6rem;
+    }
+
+    /* Flèche directionnelle */
+    .box {
+        top: 90%;
+    }
+
+    /* Section principale */
+    .home-content h1 {
+        font-size: 78px;
+    }
+
+    .home-content p {
+        font-size: 25px;
+    }
+
+    .home-content .btn {
+        font-size: 30px;
+        padding: 25px 80px;
+    }
+}
 </style>
