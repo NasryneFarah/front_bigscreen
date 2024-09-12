@@ -123,14 +123,6 @@ export default {
       this.userResponses[this.index].push(userAnswersData);
     },
 
-    // méthode pour revenir à la question précédente  userResponses
-    previousQuestion() {
-      if (this.index > 0) {
-        //je vérifie si l'index actuel est supérieux à zéro si tel est le cas cela signifie qu'il y'a une question à afficher donc la méthode décrémente
-        this.index--;
-      }
-    },
-
     //la méthode est utilisée lorsque l'utilisateur clique sur le bouton finaliser
     async finalize() {
       try {
@@ -281,8 +273,6 @@ export default {
             </div>
           </div>
           <div class="btn">
-            <!-- bouton pour revenir à la question précédente -->
-            <button @click="previousQuestion">Précédent</button>
             <button v-if="index === 19" @click.prevent="nextQuestion" type="submit"> Finaliser</button>
             <!--Une fois que l'index de de la question arrive à 19 mon bouton suivant devient finaliser-->
             <button v-else @click="nextQuestion">Suivant</button>
@@ -456,13 +446,6 @@ body {
   min-height: 100vh;
   background: rgb(34,30,66);
 background: linear-gradient(195deg, rgba(34,30,66,1) 0%, rgba(77,30,247,1) 99%);
-  /* background: rgb(34, 30, 66);
-  background: linear-gradient(
-    52deg,
-    rgba(34, 30, 66, 1) 10%,
-    rgba(52, 55, 119, 1) 56%,
-    rgba(175, 37, 153, 1) 90%
-  ); */
 }
 
 body .container {
@@ -529,10 +512,6 @@ body .container .card .box .content input {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   border: none;
 }
-
-/* body .container .card .box .content .type-a{
-
-} */
 
 .type-a ul {
   width: fit-content;
